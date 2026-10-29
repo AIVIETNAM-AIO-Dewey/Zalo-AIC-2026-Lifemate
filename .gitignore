@@ -1,0 +1,59 @@
+# Python and local tooling
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.egg-info/
+build/
+dist/
+
+# Secrets / local service credentials
+.env
+.env.*
+!.env.example
+kaggle.json
+.kaggle/
+.aws/
+*.pem
+*.key
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Downloaded competition data, models and run artifacts
+/data/
+/models/
+/checkpoints/
+/runs/
+/outputs/
+/wandb/
+/mlruns/
+.cache/
+*.wav
+*.mp3
+*.flac
+*.mp4
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.gguf
+*.onnx
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+
+# Generated transcripts / raw logs (keep split IDs and aggregate reports)
+/reports/data_audit/asr_*.jsonl
+submission*.jsonl
+diagnostics*.jsonl
+transcripts.json
+asr_cache.json

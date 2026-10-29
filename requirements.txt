@@ -1,0 +1,6 @@
+# Kaggle already supplies torch. Freeze exact versions after the GPU smoke run.
+torch>=2.6,<3
+transformers>=4.51.0,<5
+accelerate>=1.0,<2
+numpy>=1.26,<3
+safetensors>=0.5,<1

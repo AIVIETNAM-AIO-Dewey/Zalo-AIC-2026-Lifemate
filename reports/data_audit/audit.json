@@ -1,0 +1,220 @@
+{
+  "train": {
+    "samples": 1545,
+    "audio_turns": 5036,
+    "audio_files": 5036,
+    "hours": 6.829250364583333,
+    "duration_seconds": {
+      "median": 4.10884375,
+      "p95": 9.8574375,
+      "max": 22.3335
+    },
+    "formats": {
+      "16000Hz/1ch/16bit": 5036
+    },
+    "audio_errors": [],
+    "duplicate_audio_copies": 0,
+    "history_user_turns": {
+      "0": 527,
+      "1": 288,
+      "2": 267,
+      "3": 137,
+      "4": 81,
+      "5": 76,
+      "6": 41,
+      "9": 33,
+      "10": 47,
+      "11": 35,
+      "12": 13
+    },
+    "catalog_apps": 46,
+    "catalog_tools": 147,
+    "mean_installed_tools_including_sys": 33.52750809061489,
+    "jsonl_sha256": "24c42c79fbe8db932fe9817d041c0d0ca422ac8177b413cc1be0cda1fd8941a8",
+    "categories": {
+      "execute": 1217,
+      "empty": 111,
+      "missing_info": 217
+    },
+    "gold_call_counts": {
+      "0": 111,
+      "1": 369,
+      "2": 428,
+      "3": 359,
+      "4": 161,
+      "5": 107,
+      "6": 10
+    },
+    "unique_gold_tool_sequences": 695,
+    "unique_audio_texts": 4957
+  },
+  "split": {
+    "seed": 42,
+    "train_samples": 1236,
+    "dev_samples": 309,
+    "pilot_samples": 48,
+    "pilot_note": "Balanced debugging subset of dev, NOT a representative leaderboard estimate",
+    "grouping": "normalised identical latest audio_text; entire conversation kept together",
+    "limitations": "Not speaker-disjoint or template-disjoint; duplicate history utterances may cross splits.",
+    "categories": {
+      "train": {
+        "execute": 970,
+        "empty": 87,
+        "missing_info": 179
+      },
+      "dev": {
+        "execute": 247,
+        "missing_info": 38,
+        "empty": 24
+      }
+    }
+  },
+  "public_test": {
+    "samples": 634,
+    "audio_turns": 1933,
+    "audio_files": 1933,
+    "hours": 2.7620035937500003,
+    "duration_seconds": {
+      "median": 4.2740625,
+      "p95": 10.7653125,
+      "max": 20.2368125
+    },
+    "formats": {
+      "16000Hz/1ch/16bit": 1933
+    },
+    "audio_errors": [],
+    "duplicate_audio_copies": 0,
+    "history_user_turns": {
+      "0": 215,
+      "1": 135,
+      "2": 122,
+      "3": 42,
+      "4": 40,
+      "5": 22,
+      "6": 16,
+      "9": 12,
+      "10": 17,
+      "11": 6,
+      "12": 7
+    },
+    "catalog_apps": 36,
+    "catalog_tools": 122,
+    "mean_installed_tools_including_sys": 31.65930599369085,
+    "jsonl_sha256": "6274f4ff32ab03c33350029a0672a67884209b7d97f66e80181e446dd955f604"
+  },
+  "gold_replay": {
+    "samples": 1545,
+    "schema_errors": [],
+    "state_hash_mismatches": [],
+    "done_false": [
+      {
+        "id": "train_1696",
+        "call": 2,
+        "result": {
+          "ok": true,
+          "done": false,
+          "message": "không tìm thấy chat_id"
+        }
+      }
+    ]
+  },
+  "catalog_difference": {
+    "train_only": [
+      "appliances.list",
+      "appliances.start_cycle",
+      "appliances.stop",
+      "bike_rental.find_bikes",
+      "bike_rental.reserve",
+      "calculator.calculate",
+      "calculator.convert_unit",
+      "door_lock.grant_guest_code",
+      "door_lock.list_locks",
+      "door_lock.set_lock",
+      "exchange_rate.convert",
+      "exchange_rate.get_rate",
+      "fitness.get_activity",
+      "fitness.log_workout",
+      "fitness.set_goal",
+      "home_automation.create_rule",
+      "home_automation.delete_rule",
+      "home_automation.list_rules",
+      "home_energy.get_usage",
+      "home_energy.set_alert",
+      "home_security.acknowledge_alert",
+      "home_security.arm",
+      "home_security.get_camera",
+      "home_security.list_alerts",
+      "household_chores.assign",
+      "household_chores.list_chores",
+      "learning.enroll",
+      "learning.list_courses",
+      "learning.log_progress",
+      "learning.schedule_lesson",
+      "library.reserve",
+      "library.search",
+      "lottery.check_ticket",
+      "lottery.get_results",
+      "loyalty.get_points",
+      "loyalty.list_vouchers",
+      "loyalty.redeem",
+      "medication.add",
+      "medication.list",
+      "medication.log_taken",
+      "medication.remove",
+      "news.headlines",
+      "news.save",
+      "news.search",
+      "package_tracking.reschedule_delivery",
+      "package_tracking.schedule_pickup",
+      "package_tracking.track",
+      "podcast_radio.play",
+      "podcast_radio.queue",
+      "podcast_radio.search",
+      "podcast_radio.subscribe",
+      "robot_vacuum.get_status",
+      "robot_vacuum.start",
+      "robot_vacuum.stop",
+      "subscriptions.cancel",
+      "subscriptions.list",
+      "video_meeting.create",
+      "video_meeting.join",
+      "video_meeting.list_meetings"
+    ],
+    "public_only": [
+      "ecommerce.add_to_cart",
+      "ecommerce.cancel_order",
+      "ecommerce.checkout",
+      "ecommerce.order_status",
+      "ecommerce.request_return",
+      "ecommerce.search",
+      "event_tickets.book",
+      "event_tickets.search",
+      "grocery.add_to_cart",
+      "grocery.checkout",
+      "grocery.search",
+      "habit_tracker.list_habits",
+      "habit_tracker.log",
+      "pantry.consume",
+      "pantry.list_items",
+      "parking.end_session",
+      "parking.find",
+      "parking.list_sessions",
+      "parking.reserve",
+      "public_transit.find_routes",
+      "public_transit.next_departures",
+      "public_transit.topup_card",
+      "recipes.get",
+      "recipes.save",
+      "recipes.search",
+      "stocks.get_portfolio",
+      "stocks.get_quote",
+      "stocks.place_order",
+      "stocks.set_price_alert",
+      "train_bus_tickets.book",
+      "train_bus_tickets.cancel",
+      "train_bus_tickets.my_bookings",
+      "train_bus_tickets.search",
+      "translator.translate"
+    ]
+  }
+}
