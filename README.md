@@ -37,7 +37,6 @@ Mỗi mẫu có một `ToolEnv`. Agent dùng kết quả công cụ để quyế
 .
 ├── README.md
 ├── CONTRIBUTING.md                # Quy ước cộng tác của team
-├── AGENTS.md                      # Phạm vi và quy tắc cho coding agent
 ├── requirements.txt
 ├── .gitignore
 ├── data/                          # Data BTC tự tải; không đưa lên Git
@@ -60,15 +59,6 @@ Mỗi mẫu có một `ToolEnv`. Agent dùng kết quả công cụ để quyế
 
 Cây trên mô tả source hiện có và nơi lưu kết quả khi chạy. Nếu cần tách prompt, cấu hình hoặc module khác, thống nhất phạm vi trong issue/PR trước khi thay cấu trúc.
 
-## Teammate bắt đầu từ đâu?
-
-1. Đọc [quy tắc cộng tác](CONTRIBUTING.md).
-2. Clone repo sau khi được mời; tự tải dữ liệu BTC và giải nén vào `data/`.
-3. Làm theo [hướng dẫn bắt đầu](docs/GETTING_STARTED.md). B0 chỉ dùng text; notebook mặc định `RUN_AUDIO=False`.
-4. Tạo nhánh riêng, làm một thay đổi có phạm vi rõ, rồi mở pull request (PR) về `main`.
-
-Data, model và kết quả chạy không đi kèm bản clone. Split cố định là **1.236 train / 309 dev**, seed 42; pilot 48 mẫu cân bằng ba nhóm chỉ dùng để debug. Evaluator hiện dùng exact-call F1 và state match, **chưa phải scorer fuzzy chính thức**.
-
 ## Quy tắc chung
 
 - Mỗi đầu việc dùng một nhánh và một PR; nhờ ít nhất một teammate review trước khi merge vào `main`.
@@ -77,12 +67,4 @@ Data, model và kết quả chạy không đi kèm bản clone. Split cố đị
 - Giữ split và seed cố định khi so sánh. Tách rõ kiểm tra CPU, điểm dev và điểm do BTC chấm.
 - Notebook cần xóa output trước khi commit. Báo cáo kết quả kèm cấu hình, phiên bản model, phần cứng và cách đánh giá.
 
-Chi tiết: [CONTRIBUTING.md](CONTRIBUTING.md). Quy tắc cho trợ lý lập trình: [AGENTS.md](AGENTS.md).
-
-## Đưa lên GitHub
-
-Xem [hướng dẫn thiết lập GitHub](docs/GITHUB_SETUP.md). Các bước tạo repository, nối remote, push, mời thành viên và bật bảo vệ `main` cần được thực hiện trên repo của team; các file hướng dẫn không tự cấu hình chúng.
-
-Khảo sát đã lưu: [INITIAL_FINDINGS.md](reports/INITIAL_FINDINGS.md) và [audit.json](reports/data_audit/audit.json).
-
-Trang cuộc thi: [LifeMate — Zalo AI Challenge 2026](https://challenge.zalo.ai/portal/lifemate).
+Chi tiết: [CONTRIBUTING.md](CONTRIBUTING.md).
