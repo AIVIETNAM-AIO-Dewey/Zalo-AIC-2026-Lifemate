@@ -68,3 +68,12 @@ Cây trên mô tả source hiện có và nơi lưu kết quả khi chạy. Nế
 - Notebook cần xóa output trước khi commit. Báo cáo kết quả kèm cấu hình, phiên bản model, phần cứng và cách đánh giá.
 
 Chi tiết: [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Đánh giá theo quy tắc BTC
+
+Evaluator triển khai fuzzy matching theo `x-match` của catalog, ghép call một-một
+và state gate qua replay runtime BTC. Không ép điểm về 0 theo stop reason nội bộ.
+Metric chính: `score_percent`; exact-call F1 vẫn được giữ làm chẩn đoán.
+Xem [EVALUATION.md](EVALUATION.md) về tokenizer local, kiểm tra và cách chấm lại
+prediction đã lưu mà không chạy lại model. Bản local chưa được xác nhận khớp
+tuyệt đối với server scorer.

@@ -1,0 +1,77 @@
+{
+  "notice": "Local implementation of the published BTC rules; not an official server score. Tokeniser details are not published.",
+  "scorer_version": "lifemate-published-rules-v1",
+  "rules_url": "https://challenge.zalo.ai/portal/lifemate",
+  "scoring": {
+    "fuzzy_fields": "catalog x-match:fuzzy",
+    "threshold": "> 0.6",
+    "tokenisation": "NFC(lowercase(text)).split(); multiset tokens; preserve punctuation and accents",
+    "matching": "maximum one-to-one; call order ignored; rejected calls unmatched",
+    "state": "ordered BTC runtime replay is authoritative; submitted hash mismatch reported separately",
+    "stop_reason_affects_score": false
+  },
+  "mode": "oracle",
+  "asr_only": false,
+  "samples": 309,
+  "state_match_rate": 0.2815533980582524,
+  "score_percent": 11.66775448043295,
+  "mean_call_f1": 0.22216898855661668,
+  "mean_exact_call_f1": 0.20415388607549478,
+  "state_gated_exact_f1_percent": 10.286956206430792,
+  "by_category": {
+    "empty": {
+      "samples": 24,
+      "state_match_rate": 0.5416666666666666,
+      "score_percent": 20.833333333333336,
+      "state_gated_exact_f1_percent": 20.833333333333336
+    },
+    "execute": {
+      "samples": 247,
+      "state_match_rate": 0.2834008097165992,
+      "score_percent": 12.369781920865512,
+      "state_gated_exact_f1_percent": 10.642386509259575
+    },
+    "missing_info": {
+      "samples": 38,
+      "state_match_rate": 0.10526315789473684,
+      "score_percent": 1.3157894736842104,
+      "state_gated_exact_f1_percent": 1.3157894736842104
+    }
+  },
+  "asr": {
+    "turns_measured": 1001,
+    "reference_turns": 1001,
+    "coverage": 1.0,
+    "wer": 0.0,
+    "cer_including_spaces": 0.0,
+    "normalisation": "NFC lowercase; punctuation->spaces; whitespace collapsed; Vietnamese syllable tokens for WER"
+  },
+  "stop_reasons": {
+    "done": 226,
+    "repair_limit": 25,
+    "call_limit": 9,
+    "missing_info": 49
+  },
+  "hash_mismatches": 0,
+  "latency_over_30_seconds": 37,
+  "latency_seconds": {
+    "median": 13.601377369000147,
+    "p95": 45.25143935799997,
+    "max": 104.12464372
+  },
+  "latency_note": "Kaggle/local timing only. Oracle/cached-ASR runs are NOT live audio end-to-end timing; see each diagnostic live_audio_end_to_end field.",
+  "rescore_provenance": {
+    "source_archive": "b0_dev_20261101T125855Z_24f9960d.zip",
+    "archive_sha256": "e41b835985f70c71bf160c7ff26f90fbabcc5c1a34be1896ae22d35e0307c0bd",
+    "train_jsonl_sha256": "24c42c79fbe8db932fe9817d041c0d0ca422ac8177b413cc1be0cda1fd8941a8",
+    "submission_sha256": "369f2a1bf3c1cf821634372130c85d0269bc925cdc9c91dd37627129ff92fe2d",
+    "inference_rerun": false,
+    "hardware": "NVIDIA L4; deadline disabled",
+    "old_score_percent": 8.493604561565727,
+    "gold_replay_self_check": {
+      "samples": 1545,
+      "full_credit": 1545
+    },
+    "verification_note": "16 new scoring tests pass; one pre-existing pipeline test fails because local public_test.jsonl line 1 is malformed. BTC data was not modified."
+  }
+}
