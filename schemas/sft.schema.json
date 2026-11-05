@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LifeMate next-decision SFT v1",
+  "description": "Conversational prompt-completion plus tools, one next call or DONE per completion. Lineage columns are not model input. Historical completed turns are embedded in the initial user payload, matching the current baseline.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "episode_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "split_group": {
+      "type": "string",
+      "minLength": 1
+    },
+    "partition": {
+      "enum": [
+        "train",
+        "synthetic_val",
+        "example"
+      ]
+    },
+    "prompt": {
+      "type": "array",
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/system_message"
+        },
+        {
+          "$ref": "#/$defs/user_message"
+        }
+      ],
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/assistant_call"
+          },
+          {
+            "$ref": "#/$defs/tool_result"
+          }
+        ]
+      }
+    },
+    "completion": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/assistant_call"
+          },
+          {
+            "$ref": "#/$defs/done"
+          }
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/tool"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "id",
+    "episode_id",
+    "decision_index",
+    "split_group",
+    "partition",
+    "prompt",
+    "completion",
+    "tools"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "call": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arguments": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "arguments"
+      ],
+      "additionalProperties": false
+    },
+    "tool": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "function"
+        },
+        "function": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": {
+              "type": "string"
+            },
+            "parameters": {
+              "type": "object",
+              "required": [
+                "type",
+                "properties"
+              ],
+              "properties": {
+                "type": {
+                  "const": "object"
+                },
+                "properties": {
+                  "type": "object"
+                },
+                "required": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uniqueItems": true
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "parameters"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type",
+        "function"
+      ],
+      "additionalProperties": false
+    },
+    "assistant_call": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "const": "assistant"
+        },
+        "content": {
+          "const": ""
+        },
+        "tool_calls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "const": "function"
+              },
+              "function": {
+                "$ref": "#/$defs/call"
+              }
+            },
+            "required": [
+              "type",
+              "function"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 1
+        }
+      },
+      "required": [
+        "role",
+        "tool_calls"
+      ],
+      "additionalProperties": false
+    },
+    "done": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "const": "assistant"
+        },
+        "content": {
+          "const": "DONE"
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "additionalProperties": false
+    },
+    "tool_result": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "const": "tool"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "name",
+        "content"
+      ],
+      "additionalProperties": false
+    },
+    "system_message": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "const": "system"
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "additionalProperties": false
+    },
+    "user_message": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "const": "user"
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

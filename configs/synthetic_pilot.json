@@ -1,0 +1,94 @@
+{
+  "version": "1.0.0",
+  "status": "proposed_not_generated",
+  "source_catalog": "data/train/train_tools_catalog.json",
+  "source_train_ids": "reports/data_audit/train_ids.json",
+  "excluded_dev_ids": "reports/data_audit/dev_ids.json",
+  "public_catalog_only_expansion": false,
+  "generation_mode": "teacher_proposes_runtime_executes",
+  "canary_episodes": 32,
+  "accepted_episode_budget": 600,
+  "scratch_train_fraction": 0.8,
+  "scratch_validation_fraction": 0.2,
+  "split_unit": "connected lineage of scene seed, paraphrases, counterfactual siblings and parent episodes",
+  "btc_seed_derivatives": "train_only_unless_the_seed_and_all_its_relatives_are_removed_from_real_training",
+  "limits": {
+    "max_subgoals": 2,
+    "max_tool_calls_per_episode": 6,
+    "rendered_total_token_limit": 16384,
+    "reserved_completion_tokens": 512,
+    "overflow_policy": "reject_or_redesign_episode_never_silently_truncate",
+    "tool_prompt_policy": "all_installed_tools_plus_sys_ask_missing_info",
+    "tool_selection_shortcut": false
+  },
+  "families": [
+    {
+      "id": "contact_communication",
+      "accepted_episode_budget": 100,
+      "focus_tools": ["sms.send", "phone.call", "chat_ott.send_message"],
+      "support_tools": ["contacts.search", "chat_ott.list_chats"],
+      "variants": ["unique_match", "ambiguous_name", "relation_resolves_multiple_results", "history_id_reuse", "explicit_phone_number", "unavailable_capability"]
+    },
+    {
+      "id": "money_transfer",
+      "accepted_episode_budget": 90,
+      "focus_tools": ["banking.transfer", "ewallet.transfer"],
+      "support_tools": ["banking.list_beneficiaries", "contacts.search", "banking.get_balance", "ewallet.get_balance"],
+      "variants": ["explicit_amount", "missing_amount", "ambiguous_recipient", "history_recipient_reuse", "conditional_balance", "insufficient_balance_noop"]
+    },
+    {
+      "id": "smart_home",
+      "accepted_episode_budget": 100,
+      "focus_tools": ["smart_home.light_set", "smart_home.climate_set", "smart_home.fan_set"],
+      "support_tools": ["smart_home.get_status"],
+      "variants": ["lookup_device", "history_device_reuse", "one_read_multiple_writes", "room_floor_disambiguation", "user_self_cancellation", "missing_required_mode"]
+    },
+    {
+      "id": "calendar",
+      "accepted_episode_budget": 70,
+      "focus_tools": ["calendar.create_event", "calendar.update_event", "calendar.cancel_event"],
+      "support_tools": ["calendar.list_events"],
+      "variants": ["relative_date", "shift_existing_event", "history_event_reuse", "multiple_event_candidates", "missing_required_start"]
+    },
+    {
+      "id": "alarm_reminder_task",
+      "accepted_episode_budget": 80,
+      "focus_tools": ["alarm.create", "reminders.create", "tasks.add"],
+      "support_tools": [],
+      "variants": ["explicit_time", "relative_time", "history_time_reference", "missing_required_time", "omit_optional_due", "negation_or_correction"]
+    },
+    {
+      "id": "bill_payment",
+      "accepted_episode_budget": 60,
+      "focus_tools": ["bill_payment.pay", "bill_payment.schedule_autopay"],
+      "support_tools": ["bill_payment.list_bills"],
+      "variants": ["unique_bill", "multiple_bill_candidates", "history_bill_reuse", "conditional_due_date", "already_paid_noop"]
+    },
+    {
+      "id": "lookup_and_conditions",
+      "accepted_episode_budget": 60,
+      "focus_tools": ["weather.get_forecast", "weather.get_current", "gold_price.get_price", "fuel_price.get_price", "ewallet.get_balance"],
+      "support_tools": ["smart_home.light_set", "smart_home.get_status", "reminders.create"],
+      "variants": ["read_only_lookup", "answer_already_in_history", "condition_true", "condition_false_after_read", "condition_false_from_history", "history_wrong_date_or_location"]
+    },
+    {
+      "id": "bounded_multi_goal",
+      "accepted_episode_budget": 40,
+      "focus_tools": ["alarm.create", "sms.send", "ewallet.transfer", "calendar.update_event"],
+      "support_tools": ["contacts.search", "calendar.list_events"],
+      "variants": ["independent_subgoals", "do_independent_work_then_ask", "dependent_subgoal_blocked", "shared_read_result"]
+    }
+  ],
+  "overlapping_coverage_targets": {
+    "history_reuse": 150,
+    "read_only_lookup": 60,
+    "ask_missing_info": 90,
+    "no_tool_calls": 60,
+    "conditional": 80,
+    "runtime_done_false_or_empty_result": 30
+  },
+  "coverage_note": "Targets overlap, do not sum to 600, and are experimental allocations rather than measured optimal ratios. A variant applies only when supported by that tool's real schema and runtime.",
+  "acceptance_checks": ["schema_valid", "replay_valid", "causal_valid", "semantic_valid", "side_effects_valid", "call_policy_valid", "terminal_valid"],
+  "training_gate": "All checks pass, review approved, correct partition and lineage split, token/template smoke check passed. Example fixtures never train.",
+  "comparison": ["B0_no_sft", "SFT_real_only", "SFT_real_plus_synthetic_same_optimization_budget"]
+}

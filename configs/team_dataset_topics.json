@@ -1,0 +1,120 @@
+{
+  "version": "1.0.0",
+  "status": "proposed_manual_chat_generation_not_generated",
+  "unit": "accepted_episode_not_sft_row",
+  "batch_size": 5,
+  "pilot_total": 600,
+  "v1_total": 2000,
+  "scratch_validation_fraction": 0.1,
+  "notes": "Manual teammate workflow. Pilot is included in V1, not added on top. Quotas are planning allocations, not measured optimal dataset size. Does not modify the earlier automated-pilot config.",
+  "topics": [
+    {
+      "id": "HOME",
+      "name": "Nhà thông minh: đèn, quạt, điều hòa",
+      "pilot": 100,
+      "v1": 300,
+      "focus_tools": ["smart_home.light_set", "smart_home.fan_set", "smart_home.climate_set"],
+      "support_tools": ["smart_home.get_status"],
+      "variants": ["lookup_device", "history_id_reuse", "room_floor_disambiguation", "shared_read_multiple_writes", "explicit_required_mode", "user_self_cancellation"]
+    },
+    {
+      "id": "SMS_PHONE",
+      "name": "Liên hệ, SMS và cuộc gọi",
+      "pilot": 65,
+      "v1": 240,
+      "focus_tools": ["sms.send", "phone.call"],
+      "support_tools": ["contacts.search", "phone.recent_calls"],
+      "variants": ["unique_contact", "ambiguous_contact", "relation_resolves_candidates", "explicit_phone_number", "history_contact_reuse", "unsupported_channel"]
+    },
+    {
+      "id": "CHAT",
+      "name": "Nhắn tin qua ứng dụng chat",
+      "pilot": 35,
+      "v1": 140,
+      "focus_tools": ["chat_ott.send_message"],
+      "support_tools": ["chat_ott.list_chats", "chat_ott.read_chat"],
+      "variants": ["find_chat", "history_chat_reuse", "ambiguous_chat", "message_refers_to_history", "missing_recipient", "user_self_cancellation"]
+    },
+    {
+      "id": "TRANSFER",
+      "name": "Chuyển tiền ngân hàng và ví",
+      "pilot": 90,
+      "v1": 300,
+      "focus_tools": ["banking.transfer", "ewallet.transfer"],
+      "support_tools": ["banking.list_beneficiaries", "banking.get_balance", "ewallet.get_balance", "contacts.search"],
+      "variants": ["known_amount", "missing_amount", "ambiguous_recipient", "history_recipient_reuse", "conditional_balance", "insufficient_balance_noop"]
+    },
+    {
+      "id": "BILLS",
+      "name": "Tra cứu và thanh toán hóa đơn",
+      "pilot": 60,
+      "v1": 180,
+      "focus_tools": ["bill_payment.pay", "bill_payment.schedule_autopay"],
+      "support_tools": ["bill_payment.list_bills"],
+      "variants": ["find_unique_bill", "multiple_bill_candidates", "history_bill_reuse", "conditional_due_date", "already_paid_noop", "lookup_only"]
+    },
+    {
+      "id": "CALENDAR",
+      "name": "Tạo, dời và hủy lịch",
+      "pilot": 70,
+      "v1": 220,
+      "focus_tools": ["calendar.create_event", "calendar.update_event", "calendar.cancel_event"],
+      "support_tools": ["calendar.list_events"],
+      "variants": ["explicit_datetime", "relative_date", "shift_event_time", "history_event_reuse", "ambiguous_event", "missing_required_start"]
+    },
+    {
+      "id": "ALARM_REMINDER",
+      "name": "Báo thức và nhắc việc",
+      "pilot": 60,
+      "v1": 180,
+      "focus_tools": ["alarm.create", "reminders.create"],
+      "support_tools": ["alarm.list", "reminders.list"],
+      "variants": ["explicit_time", "relative_time", "history_time_reference", "missing_required_time", "repeat_rule", "negation_or_correction"]
+    },
+    {
+      "id": "TASKS_NOTES",
+      "name": "Công việc và ghi chú",
+      "pilot": 30,
+      "v1": 100,
+      "focus_tools": ["tasks.add", "tasks.complete", "notes.create", "notes.append"],
+      "support_tools": ["tasks.list", "notes.list"],
+      "variants": ["omit_optional_due", "explicit_due", "find_existing_item", "history_item_reuse", "ambiguous_item", "append_requested_content"]
+    },
+    {
+      "id": "WEATHER",
+      "name": "Thời tiết và hành động có điều kiện",
+      "pilot": 30,
+      "v1": 100,
+      "focus_tools": ["weather.get_current", "weather.get_forecast"],
+      "support_tools": ["smart_home.get_status", "smart_home.light_set", "reminders.create"],
+      "variants": ["lookup_only", "condition_true", "condition_false_after_read", "condition_false_from_history", "history_wrong_date", "history_wrong_location"]
+    },
+    {
+      "id": "INFO",
+      "name": "Giá vàng, giá xăng và số dư",
+      "pilot": 20,
+      "v1": 80,
+      "focus_tools": ["gold_price.get_price", "fuel_price.get_price", "banking.get_balance", "ewallet.get_balance"],
+      "support_tools": [],
+      "variants": ["lookup_only", "product_type_selection", "multiple_accounts", "answer_in_history", "history_different_product", "history_different_day"]
+    },
+    {
+      "id": "MULTI",
+      "name": "Hai yêu cầu có liên quan và thực hiện một phần",
+      "pilot": 20,
+      "v1": 100,
+      "focus_tools": ["alarm.create", "sms.send", "ewallet.transfer", "calendar.update_event"],
+      "support_tools": ["contacts.search", "calendar.list_events"],
+      "variants": ["independent_subgoals", "independent_work_then_ask", "dependent_subgoal_blocked", "shared_read_result", "modified_request_from_history"]
+    },
+    {
+      "id": "STOP",
+      "name": "Không hành động và dừng đúng lúc",
+      "pilot": 20,
+      "v1": 60,
+      "focus_tools": ["smart_home.light_set", "alarm.create", "sms.send", "weather.get_forecast"],
+      "support_tools": ["smart_home.get_status", "contacts.search"],
+      "variants": ["user_self_cancellation", "unsupported_capability", "casual_conversation", "answer_in_history", "condition_false_from_history"]
+    }
+  ]
+}
