@@ -39,9 +39,10 @@ class PhoWhisper:
         self.torch = torch
         self.model_id, self.device = str(model_id), device
         self.processor = AutoProcessor.from_pretrained(model_id, revision=revision)
+        # "auto" = dtype gốc trong config (PhoWhisper: float32), không ép fp16.
         self.model = AutoModelForSpeechSeq2Seq.from_pretrained(
             model_id, revision=revision,
-            torch_dtype=torch.float16 if device.startswith("cuda") else torch.float32,
+            torch_dtype="auto" if device.startswith("cuda") else torch.float32,
             attn_implementation="eager",
         ).to(device).eval()
         self.params = sum(p.numel() for p in self.model.parameters())
@@ -83,9 +84,10 @@ class QwenAgentModel:
             raise ValueError("Competition requires total context <= 16384 tokens")
         self.torch = torch
         self.tokenizer = AutoTokenizer.from_pretrained(model_id, revision=revision)
+        # "auto" = dtype gốc trong config (Qwen3: bfloat16); fp16 có thể tràn activation.
         self.model = AutoModelForCausalLM.from_pretrained(
             model_id, revision=revision,
-            torch_dtype=torch.float16 if device.startswith("cuda") else torch.float32,
+            torch_dtype="auto" if device.startswith("cuda") else torch.float32,
             attn_implementation="sdpa",
         ).to(device).eval()
         self.model_id, self.device = str(model_id), device
