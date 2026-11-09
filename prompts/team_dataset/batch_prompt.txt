@@ -1,0 +1,9 @@
+BATCH_REQUEST
+TOPIC_ID: {{TOPIC_ID}}
+TEAM_ID: {{TEAM_ID}}
+BATCH_ID: {{BATCH_ID}}
+N: 5
+VARIANTS: Tự phân bổ theo topic packet; tránh lặp cảnh trong cùng batch.
+USED_SCENES: []
+
+Hãy sinh đúng 5 episode nháp, mỗi episode một dòng JSONL, theo context prompt và TOPIC_PACKET đã cung cấp. Giữ verification_status="not_run". Không đưa observation hoặc tool_results do bạn tự nghĩ ra vào đầu ra.

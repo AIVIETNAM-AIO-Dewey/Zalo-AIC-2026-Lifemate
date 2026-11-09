@@ -1,0 +1,3055 @@
+{
+  "scope": "Fixed train IDs only; public catalog metadata only; no dev labels or test rows",
+  "counts_are": "Call occurrences and sample counts are distinct. Earlier read co-occurrence is NOT a dependency proof.",
+  "sources": {
+    "train_jsonl_sha256": "24c42c79fbe8db932fe9817d041c0d0ca422ac8177b413cc1be0cda1fd8941a8",
+    "train_ids_sha256": "466c57733523a60860beb67e7200ebdcd345960bfdcf373b7ecce43f10787fc4",
+    "dev_ids_sha256": "195efd9621249dbf09b0e0915a45288f582c96b106938b96334a1a58a3715d57",
+    "train_catalog_sha256": "a994984bb580d7e0d60166641858901d428549682ba3614dbf9269037a33cce0",
+    "public_catalog_sha256": "c8f46c278a7495d36905ac28fc5b85b67aad22bc2ac0b29ba9ac6455ad9daf5d"
+  },
+  "train_samples": 1236,
+  "outcomes": {
+    "ask_missing_info": 179,
+    "execute": 970,
+    "no_action": 87
+  },
+  "train_catalog_tools": 147,
+  "tools_with_gold_train_calls": 146,
+  "train_catalog_tools_without_gold_train_calls": [
+    "contacts.get"
+  ],
+  "public_catalog_only_tools": [
+    "ecommerce.add_to_cart",
+    "ecommerce.cancel_order",
+    "ecommerce.checkout",
+    "ecommerce.order_status",
+    "ecommerce.request_return",
+    "ecommerce.search",
+    "event_tickets.book",
+    "event_tickets.search",
+    "grocery.add_to_cart",
+    "grocery.checkout",
+    "grocery.search",
+    "habit_tracker.list_habits",
+    "habit_tracker.log",
+    "pantry.consume",
+    "pantry.list_items",
+    "parking.end_session",
+    "parking.find",
+    "parking.list_sessions",
+    "parking.reserve",
+    "public_transit.find_routes",
+    "public_transit.next_departures",
+    "public_transit.topup_card",
+    "recipes.get",
+    "recipes.save",
+    "recipes.search",
+    "stocks.get_portfolio",
+    "stocks.get_quote",
+    "stocks.place_order",
+    "stocks.set_price_alert",
+    "train_bus_tickets.book",
+    "train_bus_tickets.cancel",
+    "train_bus_tickets.my_bookings",
+    "train_bus_tickets.search",
+    "translator.translate"
+  ],
+  "shared_tools_with_parameter_schema_changes": [],
+  "tools": [
+    {
+      "name": "alarm.create",
+      "app": "alarm",
+      "kind": "write",
+      "installed_train_samples": 396,
+      "gold_train_samples": 66,
+      "gold_train_call_occurrences": 67,
+      "required": [
+        "time"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "alarm.list": 1,
+        "calendar.list_events": 15,
+        "contacts.search": 17,
+        "exchange_rate.get_rate": 1,
+        "flights.my_bookings": 1,
+        "food_delivery.order_history": 1,
+        "fuel_price.get_price": 1,
+        "lottery.check_ticket": 1,
+        "loyalty.get_points": 1,
+        "medication.list": 2,
+        "news.search": 1,
+        "video_meeting.list_meetings": 3
+      },
+      "immediate_reads_per_write_occurrence": {
+        "alarm.list": 1,
+        "calendar.list_events": 1,
+        "contacts.search": 15,
+        "exchange_rate.get_rate": 1,
+        "fuel_price.get_price": 1,
+        "medication.list": 1,
+        "video_meeting.list_meetings": 2
+      }
+    },
+    {
+      "name": "alarm.delete",
+      "app": "alarm",
+      "kind": "write",
+      "installed_train_samples": 396,
+      "gold_train_samples": 2,
+      "gold_train_call_occurrences": 2,
+      "required": [
+        "alarm_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "alarm_id": "alarm.alarms"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "alarm.list": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "alarm.list": 1
+      }
+    },
+    {
+      "name": "alarm.list",
+      "app": "alarm",
+      "kind": "read",
+      "installed_train_samples": 396,
+      "gold_train_samples": 7,
+      "gold_train_call_occurrences": 7,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "alarm.update",
+      "app": "alarm",
+      "kind": "write",
+      "installed_train_samples": 396,
+      "gold_train_samples": 6,
+      "gold_train_call_occurrences": 6,
+      "required": [
+        "alarm_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "alarm_id": "alarm.alarms"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "alarm.list": 2,
+        "smart_home.get_status": 1,
+        "weather.get_forecast": 2
+      },
+      "immediate_reads_per_write_occurrence": {
+        "alarm.list": 2,
+        "weather.get_forecast": 1
+      }
+    },
+    {
+      "name": "appliances.list",
+      "app": "appliances",
+      "kind": "read",
+      "installed_train_samples": 88,
+      "gold_train_samples": 16,
+      "gold_train_call_occurrences": 16,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "appliances.start_cycle",
+      "app": "appliances",
+      "kind": "write",
+      "installed_train_samples": 88,
+      "gold_train_samples": 10,
+      "gold_train_call_occurrences": 11,
+      "required": [
+        "appliance_id",
+        "cycle"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "appliance_id": "appliances.appliances"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "alarm.list": 2,
+        "appliances.list": 9,
+        "home_energy.get_usage": 1,
+        "weather.get_current": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "alarm.list": 1,
+        "appliances.list": 9
+      }
+    },
+    {
+      "name": "appliances.stop",
+      "app": "appliances",
+      "kind": "write",
+      "installed_train_samples": 88,
+      "gold_train_samples": 6,
+      "gold_train_call_occurrences": 6,
+      "required": [
+        "appliance_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "appliance_id": "appliances.appliances"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "appliances.list": 4,
+        "news.search": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "appliances.list": 4
+      }
+    },
+    {
+      "name": "banking.get_balance",
+      "app": "banking",
+      "kind": "read",
+      "installed_train_samples": 394,
+      "gold_train_samples": 49,
+      "gold_train_call_occurrences": 49,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "banking.list_beneficiaries",
+      "app": "banking",
+      "kind": "read",
+      "installed_train_samples": 394,
+      "gold_train_samples": 45,
+      "gold_train_call_occurrences": 45,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "banking.list_transactions",
+      "app": "banking",
+      "kind": "read",
+      "installed_train_samples": 394,
+      "gold_train_samples": 2,
+      "gold_train_call_occurrences": 2,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {
+        "account_id": "banking.accounts"
+      },
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "banking.open_savings",
+      "app": "banking",
+      "kind": "write",
+      "installed_train_samples": 394,
+      "gold_train_samples": 3,
+      "gold_train_call_occurrences": 3,
+      "required": [
+        "from_account_id",
+        "amount",
+        "term_months"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "from_account_id": "banking.accounts"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "banking.get_balance": 2
+      },
+      "immediate_reads_per_write_occurrence": {
+        "banking.get_balance": 2
+      }
+    },
+    {
+      "name": "banking.transfer",
+      "app": "banking",
+      "kind": "write",
+      "installed_train_samples": 394,
+      "gold_train_samples": 47,
+      "gold_train_call_occurrences": 66,
+      "required": [
+        "from_account_id",
+        "beneficiary_id",
+        "amount"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "from_account_id": "banking.accounts",
+        "beneficiary_id": "banking.beneficiaries"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "banking.get_balance": 64,
+        "banking.list_beneficiaries": 64,
+        "bike_rental.find_bikes": 1,
+        "bill_payment.list_bills": 43,
+        "exchange_rate.convert": 3,
+        "gold_price.get_price": 11,
+        "sms.read_recent": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "banking.get_balance": 1,
+        "banking.list_beneficiaries": 45
+      }
+    },
+    {
+      "name": "bike_rental.find_bikes",
+      "app": "bike_rental",
+      "kind": "read",
+      "installed_train_samples": 75,
+      "gold_train_samples": 13,
+      "gold_train_call_occurrences": 13,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "bike_rental.reserve",
+      "app": "bike_rental",
+      "kind": "write",
+      "installed_train_samples": 75,
+      "gold_train_samples": 22,
+      "gold_train_call_occurrences": 26,
+      "required": [
+        "bike_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "bike_id": "bike_rental.bikes"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "bike_rental.find_bikes": 13,
+        "fuel_price.get_price": 1,
+        "sms.read_recent": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "bike_rental.find_bikes": 11,
+        "fuel_price.get_price": 1
+      }
+    },
+    {
+      "name": "bill_payment.list_bills",
+      "app": "bill_payment",
+      "kind": "read",
+      "installed_train_samples": 177,
+      "gold_train_samples": 89,
+      "gold_train_call_occurrences": 89,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "bill_payment.pay",
+      "app": "bill_payment",
+      "kind": "write",
+      "installed_train_samples": 177,
+      "gold_train_samples": 62,
+      "gold_train_call_occurrences": 85,
+      "required": [
+        "bill_id",
+        "source"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "bill_id": "bill_payment.bills"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "bill_payment.list_bills": 78,
+        "ewallet.get_balance": 26,
+        "food_delivery.get_menu": 1,
+        "food_delivery.list_restaurants": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "bill_payment.list_bills": 28,
+        "ewallet.get_balance": 26
+      }
+    },
+    {
+      "name": "bill_payment.schedule_autopay",
+      "app": "bill_payment",
+      "kind": "write",
+      "installed_train_samples": 177,
+      "gold_train_samples": 8,
+      "gold_train_call_occurrences": 8,
+      "required": [
+        "type",
+        "enabled"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "bill_payment.list_bills": 4,
+        "calculator.calculate": 1,
+        "ewallet.get_balance": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "bill_payment.list_bills": 3,
+        "calculator.calculate": 1
+      }
+    },
+    {
+      "name": "calculator.calculate",
+      "app": "calculator",
+      "kind": "read",
+      "installed_train_samples": 97,
+      "gold_train_samples": 9,
+      "gold_train_call_occurrences": 9,
+      "required": [
+        "expression"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "calculator.convert_unit",
+      "app": "calculator",
+      "kind": "read",
+      "installed_train_samples": 97,
+      "gold_train_samples": 10,
+      "gold_train_call_occurrences": 10,
+      "required": [
+        "value",
+        "from_unit",
+        "to_unit"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "calendar.cancel_event",
+      "app": "calendar",
+      "kind": "write",
+      "installed_train_samples": 702,
+      "gold_train_samples": 18,
+      "gold_train_call_occurrences": 18,
+      "required": [
+        "event_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "event_id": "calendar.events"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 13,
+        "lottery.check_ticket": 1,
+        "weather.get_forecast": 11
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calendar.list_events": 13,
+        "lottery.check_ticket": 1,
+        "weather.get_forecast": 1
+      }
+    },
+    {
+      "name": "calendar.create_event",
+      "app": "calendar",
+      "kind": "write",
+      "installed_train_samples": 702,
+      "gold_train_samples": 31,
+      "gold_train_call_occurrences": 32,
+      "required": [
+        "title",
+        "start"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "bike_rental.find_bikes": 1,
+        "calendar.list_events": 2,
+        "chat_ott.list_chats": 2,
+        "chat_ott.read_chat": 1,
+        "contacts.search": 2,
+        "exchange_rate.convert": 1,
+        "fitness.get_activity": 1,
+        "home_security.list_alerts": 1,
+        "learning.list_courses": 2,
+        "loyalty.list_vouchers": 1,
+        "maps.get_route": 1,
+        "news.headlines": 1,
+        "news.search": 1,
+        "shopping_list.get": 1,
+        "weather.get_forecast": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calendar.list_events": 2,
+        "chat_ott.read_chat": 1,
+        "exchange_rate.convert": 1,
+        "fitness.get_activity": 1,
+        "loyalty.list_vouchers": 1,
+        "maps.get_route": 1,
+        "news.headlines": 1,
+        "news.search": 1,
+        "weather.get_forecast": 1
+      }
+    },
+    {
+      "name": "calendar.list_events",
+      "app": "calendar",
+      "kind": "read",
+      "installed_train_samples": 702,
+      "gold_train_samples": 81,
+      "gold_train_call_occurrences": 81,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "calendar.update_event",
+      "app": "calendar",
+      "kind": "write",
+      "installed_train_samples": 702,
+      "gold_train_samples": 30,
+      "gold_train_call_occurrences": 30,
+      "required": [
+        "event_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "event_id": "calendar.events"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 28,
+        "weather.get_forecast": 5
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calendar.list_events": 28
+      }
+    },
+    {
+      "name": "chat_ott.call",
+      "app": "chat_ott",
+      "kind": "write",
+      "installed_train_samples": 554,
+      "gold_train_samples": 4,
+      "gold_train_call_occurrences": 4,
+      "required": [
+        "chat_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "chat_id": "chat_ott.chats"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "chat_ott.list_chats": 2
+      },
+      "immediate_reads_per_write_occurrence": {
+        "chat_ott.list_chats": 2
+      }
+    },
+    {
+      "name": "chat_ott.list_chats",
+      "app": "chat_ott",
+      "kind": "read",
+      "installed_train_samples": 554,
+      "gold_train_samples": 75,
+      "gold_train_call_occurrences": 75,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "chat_ott.read_chat",
+      "app": "chat_ott",
+      "kind": "read",
+      "installed_train_samples": 554,
+      "gold_train_samples": 9,
+      "gold_train_call_occurrences": 9,
+      "required": [
+        "chat_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "chat_id": "chat_ott.chats"
+      },
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "chat_ott.send_location",
+      "app": "chat_ott",
+      "kind": "write",
+      "installed_train_samples": 554,
+      "gold_train_samples": 3,
+      "gold_train_call_occurrences": 3,
+      "required": [
+        "chat_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "chat_id": "chat_ott.chats"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "chat_ott.list_chats": 2,
+        "notes.list": 1,
+        "weather.get_forecast": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "chat_ott.list_chats": 2
+      }
+    },
+    {
+      "name": "chat_ott.send_message",
+      "app": "chat_ott",
+      "kind": "write",
+      "installed_train_samples": 554,
+      "gold_train_samples": 53,
+      "gold_train_call_occurrences": 56,
+      "required": [
+        "chat_id",
+        "content"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "chat_id": "chat_ott.chats"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "calculator.calculate": 1,
+        "chat_ott.list_chats": 42,
+        "contacts.search": 7,
+        "door_lock.list_locks": 5,
+        "exchange_rate.get_rate": 5,
+        "home_automation.list_rules": 1,
+        "home_security.list_alerts": 5,
+        "library.search": 1,
+        "lottery.get_results": 1,
+        "loyalty.list_vouchers": 1,
+        "maps.get_route": 1,
+        "maps.search_place": 1,
+        "medication.list": 1,
+        "news.search": 1,
+        "notes.list": 1,
+        "robot_vacuum.get_status": 1,
+        "shopping_list.get": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "chat_ott.list_chats": 40,
+        "library.search": 1,
+        "lottery.get_results": 1,
+        "loyalty.list_vouchers": 1,
+        "maps.get_route": 1,
+        "notes.list": 1
+      }
+    },
+    {
+      "name": "contacts.get",
+      "app": "contacts",
+      "kind": "read",
+      "installed_train_samples": 696,
+      "gold_train_samples": 0,
+      "gold_train_call_occurrences": 0,
+      "required": [
+        "contact_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "contact_id": "contacts.contacts"
+      },
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "contacts.search",
+      "app": "contacts",
+      "kind": "read",
+      "installed_train_samples": 696,
+      "gold_train_samples": 176,
+      "gold_train_call_occurrences": 185,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "contacts.update",
+      "app": "contacts",
+      "kind": "write",
+      "installed_train_samples": 696,
+      "gold_train_samples": 9,
+      "gold_train_call_occurrences": 9,
+      "required": [
+        "contact_id"
+      ],
+      "x_one_of": [
+        [
+          "phone"
+        ],
+        [
+          "email"
+        ]
+      ],
+      "reference_parameters": {
+        "contact_id": "contacts.contacts"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "contacts.search": 4
+      },
+      "immediate_reads_per_write_occurrence": {
+        "contacts.search": 4
+      }
+    },
+    {
+      "name": "door_lock.grant_guest_code",
+      "app": "door_lock",
+      "kind": "write",
+      "installed_train_samples": 101,
+      "gold_train_samples": 7,
+      "gold_train_call_occurrences": 8,
+      "required": [
+        "lock_id",
+        "valid_until"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "lock_id": "door_lock.locks"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "alarm.list": 1,
+        "door_lock.list_locks": 4,
+        "reminders.list": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "alarm.list": 1,
+        "door_lock.list_locks": 3
+      }
+    },
+    {
+      "name": "door_lock.list_locks",
+      "app": "door_lock",
+      "kind": "read",
+      "installed_train_samples": 101,
+      "gold_train_samples": 22,
+      "gold_train_call_occurrences": 22,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "door_lock.set_lock",
+      "app": "door_lock",
+      "kind": "write",
+      "installed_train_samples": 101,
+      "gold_train_samples": 21,
+      "gold_train_call_occurrences": 23,
+      "required": [
+        "lock_id",
+        "locked"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "lock_id": "door_lock.locks"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "door_lock.list_locks": 18,
+        "home_security.list_alerts": 10
+      },
+      "immediate_reads_per_write_occurrence": {
+        "door_lock.list_locks": 16
+      }
+    },
+    {
+      "name": "email.archive",
+      "app": "email",
+      "kind": "write",
+      "installed_train_samples": 294,
+      "gold_train_samples": 2,
+      "gold_train_call_occurrences": 4,
+      "required": [
+        "email_id",
+        "action"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "email_id": "email.emails"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "maps.get_route": 2
+      },
+      "immediate_reads_per_write_occurrence": {
+        "maps.get_route": 1
+      }
+    },
+    {
+      "name": "email.create_draft",
+      "app": "email",
+      "kind": "write",
+      "installed_train_samples": 294,
+      "gold_train_samples": 17,
+      "gold_train_call_occurrences": 17,
+      "required": [
+        "to",
+        "subject",
+        "body"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 1,
+        "chat_ott.list_chats": 2,
+        "contacts.search": 6,
+        "subscriptions.list": 2
+      },
+      "immediate_reads_per_write_occurrence": {
+        "contacts.search": 4
+      }
+    },
+    {
+      "name": "email.list",
+      "app": "email",
+      "kind": "read",
+      "installed_train_samples": 294,
+      "gold_train_samples": 2,
+      "gold_train_call_occurrences": 2,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "email.read",
+      "app": "email",
+      "kind": "read",
+      "installed_train_samples": 294,
+      "gold_train_samples": 4,
+      "gold_train_call_occurrences": 4,
+      "required": [
+        "email_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "email_id": "email.emails"
+      },
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "email.reply",
+      "app": "email",
+      "kind": "write",
+      "installed_train_samples": 294,
+      "gold_train_samples": 4,
+      "gold_train_call_occurrences": 4,
+      "required": [
+        "email_id",
+        "body"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "email_id": "email.emails"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "news.search": 1
+      },
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "email.send",
+      "app": "email",
+      "kind": "write",
+      "installed_train_samples": 294,
+      "gold_train_samples": 2,
+      "gold_train_call_occurrences": 2,
+      "required": [
+        "to",
+        "subject",
+        "body"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "contacts.search": 2,
+        "weather.get_forecast": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "contacts.search": 2
+      }
+    },
+    {
+      "name": "ewallet.get_balance",
+      "app": "ewallet",
+      "kind": "read",
+      "installed_train_samples": 430,
+      "gold_train_samples": 32,
+      "gold_train_call_occurrences": 32,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "ewallet.pay_qr",
+      "app": "ewallet",
+      "kind": "write",
+      "installed_train_samples": 430,
+      "gold_train_samples": 4,
+      "gold_train_call_occurrences": 4,
+      "required": [
+        "merchant_id",
+        "amount"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "ewallet.topup_mobile",
+      "app": "ewallet",
+      "kind": "write",
+      "installed_train_samples": 430,
+      "gold_train_samples": 9,
+      "gold_train_call_occurrences": 9,
+      "required": [
+        "phone",
+        "amount"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "banking.get_balance": 1,
+        "banking.list_beneficiaries": 1,
+        "bill_payment.list_bills": 6,
+        "contacts.search": 8
+      },
+      "immediate_reads_per_write_occurrence": {
+        "contacts.search": 8
+      }
+    },
+    {
+      "name": "ewallet.transfer",
+      "app": "ewallet",
+      "kind": "write",
+      "installed_train_samples": 430,
+      "gold_train_samples": 28,
+      "gold_train_call_occurrences": 29,
+      "required": [
+        "amount"
+      ],
+      "x_one_of": [
+        [
+          "contact_id"
+        ],
+        [
+          "phone"
+        ]
+      ],
+      "reference_parameters": {
+        "contact_id": "contacts.contacts"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "bill_payment.list_bills": 6,
+        "chat_ott.list_chats": 1,
+        "contacts.search": 24,
+        "ewallet.get_balance": 1,
+        "exchange_rate.get_rate": 1,
+        "lottery.get_results": 3,
+        "medication.list": 1,
+        "weather.get_current": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "contacts.search": 23,
+        "lottery.get_results": 1
+      }
+    },
+    {
+      "name": "exchange_rate.convert",
+      "app": "exchange_rate",
+      "kind": "read",
+      "installed_train_samples": 77,
+      "gold_train_samples": 8,
+      "gold_train_call_occurrences": 10,
+      "required": [
+        "amount",
+        "from_currency",
+        "to_currency"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "exchange_rate.get_rate",
+      "app": "exchange_rate",
+      "kind": "read",
+      "installed_train_samples": 77,
+      "gold_train_samples": 12,
+      "gold_train_call_occurrences": 12,
+      "required": [
+        "from_currency",
+        "to_currency"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "fitness.get_activity",
+      "app": "fitness",
+      "kind": "read",
+      "installed_train_samples": 86,
+      "gold_train_samples": 8,
+      "gold_train_call_occurrences": 9,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "fitness.log_workout",
+      "app": "fitness",
+      "kind": "write",
+      "installed_train_samples": 86,
+      "gold_train_samples": 12,
+      "gold_train_call_occurrences": 12,
+      "required": [
+        "type",
+        "minutes"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 1,
+        "contacts.search": 1,
+        "music.list_tracks": 1,
+        "sms.read_recent": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calendar.list_events": 1,
+        "sms.read_recent": 1
+      }
+    },
+    {
+      "name": "fitness.set_goal",
+      "app": "fitness",
+      "kind": "write",
+      "installed_train_samples": 86,
+      "gold_train_samples": 9,
+      "gold_train_call_occurrences": 9,
+      "required": [
+        "steps"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "fitness.get_activity": 2,
+        "maps.get_route": 1,
+        "weather.get_forecast": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "fitness.get_activity": 2,
+        "maps.get_route": 1,
+        "weather.get_forecast": 1
+      }
+    },
+    {
+      "name": "flights.book",
+      "app": "flights",
+      "kind": "write",
+      "installed_train_samples": 80,
+      "gold_train_samples": 13,
+      "gold_train_call_occurrences": 13,
+      "required": [
+        "flight_id",
+        "passengers"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "flight_id": "flights.flights"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 2,
+        "exchange_rate.get_rate": 1,
+        "flights.search": 4
+      },
+      "immediate_reads_per_write_occurrence": {
+        "exchange_rate.get_rate": 1,
+        "flights.search": 4
+      }
+    },
+    {
+      "name": "flights.cancel",
+      "app": "flights",
+      "kind": "write",
+      "installed_train_samples": 80,
+      "gold_train_samples": 3,
+      "gold_train_call_occurrences": 4,
+      "required": [
+        "booking_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "booking_id": "flights.bookings"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "flights.my_bookings": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "flights.my_bookings": 1
+      }
+    },
+    {
+      "name": "flights.check_in",
+      "app": "flights",
+      "kind": "write",
+      "installed_train_samples": 80,
+      "gold_train_samples": 7,
+      "gold_train_call_occurrences": 7,
+      "required": [
+        "booking_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "booking_id": "flights.bookings"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 1,
+        "flights.my_bookings": 4
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calendar.list_events": 1,
+        "flights.my_bookings": 4
+      }
+    },
+    {
+      "name": "flights.my_bookings",
+      "app": "flights",
+      "kind": "read",
+      "installed_train_samples": 80,
+      "gold_train_samples": 8,
+      "gold_train_call_occurrences": 8,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "flights.search",
+      "app": "flights",
+      "kind": "read",
+      "installed_train_samples": 80,
+      "gold_train_samples": 5,
+      "gold_train_call_occurrences": 5,
+      "required": [
+        "origin",
+        "destination",
+        "date"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "food_delivery.cancel_order",
+      "app": "food_delivery",
+      "kind": "write",
+      "installed_train_samples": 374,
+      "gold_train_samples": 5,
+      "gold_train_call_occurrences": 6,
+      "required": [
+        "order_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "order_id": "food_delivery.orders"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "food_delivery.order_history": 2
+      },
+      "immediate_reads_per_write_occurrence": {
+        "food_delivery.order_history": 2
+      }
+    },
+    {
+      "name": "food_delivery.get_menu",
+      "app": "food_delivery",
+      "kind": "read",
+      "installed_train_samples": 374,
+      "gold_train_samples": 20,
+      "gold_train_call_occurrences": 20,
+      "required": [
+        "restaurant_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "restaurant_id": "food_delivery.restaurants"
+      },
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "food_delivery.list_restaurants",
+      "app": "food_delivery",
+      "kind": "read",
+      "installed_train_samples": 374,
+      "gold_train_samples": 23,
+      "gold_train_call_occurrences": 23,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "food_delivery.order_history",
+      "app": "food_delivery",
+      "kind": "read",
+      "installed_train_samples": 374,
+      "gold_train_samples": 13,
+      "gold_train_call_occurrences": 13,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "food_delivery.place_order",
+      "app": "food_delivery",
+      "kind": "write",
+      "installed_train_samples": 374,
+      "gold_train_samples": 24,
+      "gold_train_call_occurrences": 25,
+      "required": [
+        "restaurant_id",
+        "items"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "restaurant_id": "food_delivery.restaurants"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "chat_ott.list_chats": 15,
+        "food_delivery.get_menu": 20,
+        "food_delivery.list_restaurants": 20,
+        "food_delivery.order_history": 1,
+        "medication.list": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "food_delivery.get_menu": 20,
+        "food_delivery.order_history": 1
+      }
+    },
+    {
+      "name": "fuel_price.get_price",
+      "app": "fuel_price",
+      "kind": "read",
+      "installed_train_samples": 241,
+      "gold_train_samples": 9,
+      "gold_train_call_occurrences": 9,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "gold_price.get_price",
+      "app": "gold_price",
+      "kind": "read",
+      "installed_train_samples": 279,
+      "gold_train_samples": 27,
+      "gold_train_call_occurrences": 27,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "home_automation.create_rule",
+      "app": "home_automation",
+      "kind": "write",
+      "installed_train_samples": 87,
+      "gold_train_samples": 17,
+      "gold_train_call_occurrences": 17,
+      "required": [
+        "device_id",
+        "action",
+        "time"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "device_id": "smart_home.devices"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "home_automation.list_rules": 1,
+        "home_energy.get_usage": 4,
+        "smart_home.get_status": 14,
+        "video_meeting.list_meetings": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "home_automation.list_rules": 1,
+        "smart_home.get_status": 14
+      }
+    },
+    {
+      "name": "home_automation.delete_rule",
+      "app": "home_automation",
+      "kind": "write",
+      "installed_train_samples": 87,
+      "gold_train_samples": 13,
+      "gold_train_call_occurrences": 16,
+      "required": [
+        "rule_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "rule_id": "home_automation.rules"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "chat_ott.list_chats": 1,
+        "chat_ott.read_chat": 1,
+        "home_automation.list_rules": 11
+      },
+      "immediate_reads_per_write_occurrence": {
+        "chat_ott.read_chat": 1,
+        "home_automation.list_rules": 8
+      }
+    },
+    {
+      "name": "home_automation.list_rules",
+      "app": "home_automation",
+      "kind": "read",
+      "installed_train_samples": 87,
+      "gold_train_samples": 10,
+      "gold_train_call_occurrences": 10,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "home_energy.get_usage",
+      "app": "home_energy",
+      "kind": "read",
+      "installed_train_samples": 91,
+      "gold_train_samples": 16,
+      "gold_train_call_occurrences": 16,
+      "required": [
+        "period"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "home_energy.set_alert",
+      "app": "home_energy",
+      "kind": "write",
+      "installed_train_samples": 91,
+      "gold_train_samples": 10,
+      "gold_train_call_occurrences": 10,
+      "required": [
+        "threshold_kwh"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "home_energy.get_usage": 3
+      },
+      "immediate_reads_per_write_occurrence": {
+        "home_energy.get_usage": 3
+      }
+    },
+    {
+      "name": "home_security.acknowledge_alert",
+      "app": "home_security",
+      "kind": "write",
+      "installed_train_samples": 111,
+      "gold_train_samples": 7,
+      "gold_train_call_occurrences": 10,
+      "required": [
+        "alert_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "alert_id": "home_security.alerts"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "food_delivery.order_history": 1,
+        "home_security.list_alerts": 4
+      },
+      "immediate_reads_per_write_occurrence": {
+        "food_delivery.order_history": 1,
+        "home_security.list_alerts": 3
+      }
+    },
+    {
+      "name": "home_security.arm",
+      "app": "home_security",
+      "kind": "write",
+      "installed_train_samples": 111,
+      "gold_train_samples": 2,
+      "gold_train_call_occurrences": 2,
+      "required": [
+        "mode"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "ewallet.get_balance": 1,
+        "home_security.get_camera": 1,
+        "home_security.list_alerts": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "ewallet.get_balance": 1,
+        "home_security.get_camera": 1
+      }
+    },
+    {
+      "name": "home_security.get_camera",
+      "app": "home_security",
+      "kind": "read",
+      "installed_train_samples": 111,
+      "gold_train_samples": 6,
+      "gold_train_call_occurrences": 6,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "home_security.list_alerts",
+      "app": "home_security",
+      "kind": "read",
+      "installed_train_samples": 111,
+      "gold_train_samples": 21,
+      "gold_train_call_occurrences": 21,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "household_chores.assign",
+      "app": "household_chores",
+      "kind": "write",
+      "installed_train_samples": 96,
+      "gold_train_samples": 18,
+      "gold_train_call_occurrences": 22,
+      "required": [
+        "assignee",
+        "chore_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "chore_id": "household_chores.chores"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "appliances.list": 4,
+        "door_lock.list_locks": 1,
+        "ewallet.get_balance": 1,
+        "home_security.list_alerts": 1,
+        "household_chores.list_chores": 17,
+        "tasks.list": 2
+      },
+      "immediate_reads_per_write_occurrence": {
+        "household_chores.list_chores": 14,
+        "tasks.list": 1
+      }
+    },
+    {
+      "name": "household_chores.list_chores",
+      "app": "household_chores",
+      "kind": "read",
+      "installed_train_samples": 96,
+      "gold_train_samples": 16,
+      "gold_train_call_occurrences": 16,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "learning.enroll",
+      "app": "learning",
+      "kind": "write",
+      "installed_train_samples": 88,
+      "gold_train_samples": 9,
+      "gold_train_call_occurrences": 9,
+      "required": [
+        "course_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "course_id": "learning.courses"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "learning.list_courses": 4
+      },
+      "immediate_reads_per_write_occurrence": {
+        "learning.list_courses": 4
+      }
+    },
+    {
+      "name": "learning.list_courses",
+      "app": "learning",
+      "kind": "read",
+      "installed_train_samples": 88,
+      "gold_train_samples": 17,
+      "gold_train_call_occurrences": 17,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "learning.log_progress",
+      "app": "learning",
+      "kind": "write",
+      "installed_train_samples": 88,
+      "gold_train_samples": 8,
+      "gold_train_call_occurrences": 8,
+      "required": [
+        "course_id",
+        "minutes"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "course_id": "learning.courses"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "food_delivery.order_history": 1,
+        "learning.list_courses": 6
+      },
+      "immediate_reads_per_write_occurrence": {
+        "food_delivery.order_history": 1,
+        "learning.list_courses": 6
+      }
+    },
+    {
+      "name": "learning.schedule_lesson",
+      "app": "learning",
+      "kind": "write",
+      "installed_train_samples": 88,
+      "gold_train_samples": 8,
+      "gold_train_call_occurrences": 8,
+      "required": [
+        "course_id",
+        "time"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "course_id": "learning.courses"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 2,
+        "learning.list_courses": 3,
+        "tasks.list": 1,
+        "weather.get_forecast": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calendar.list_events": 1,
+        "learning.list_courses": 2,
+        "tasks.list": 1,
+        "weather.get_forecast": 1
+      }
+    },
+    {
+      "name": "library.reserve",
+      "app": "library",
+      "kind": "write",
+      "installed_train_samples": 84,
+      "gold_train_samples": 11,
+      "gold_train_call_occurrences": 11,
+      "required": [
+        "book_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "book_id": "library.books"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "contacts.search": 1,
+        "library.search": 7,
+        "sms.read_recent": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "library.search": 7
+      }
+    },
+    {
+      "name": "library.search",
+      "app": "library",
+      "kind": "read",
+      "installed_train_samples": 84,
+      "gold_train_samples": 10,
+      "gold_train_call_occurrences": 10,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "lottery.check_ticket",
+      "app": "lottery",
+      "kind": "read",
+      "installed_train_samples": 58,
+      "gold_train_samples": 8,
+      "gold_train_call_occurrences": 11,
+      "required": [
+        "province",
+        "date",
+        "number"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "lottery.get_results",
+      "app": "lottery",
+      "kind": "read",
+      "installed_train_samples": 58,
+      "gold_train_samples": 9,
+      "gold_train_call_occurrences": 11,
+      "required": [
+        "province"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "loyalty.get_points",
+      "app": "loyalty",
+      "kind": "read",
+      "installed_train_samples": 79,
+      "gold_train_samples": 15,
+      "gold_train_call_occurrences": 15,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "loyalty.list_vouchers",
+      "app": "loyalty",
+      "kind": "read",
+      "installed_train_samples": 79,
+      "gold_train_samples": 5,
+      "gold_train_call_occurrences": 5,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "loyalty.redeem",
+      "app": "loyalty",
+      "kind": "write",
+      "installed_train_samples": 79,
+      "gold_train_samples": 13,
+      "gold_train_call_occurrences": 17,
+      "required": [
+        "program",
+        "reward_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 1,
+        "fuel_price.get_price": 1,
+        "loyalty.get_points": 12,
+        "loyalty.list_vouchers": 1,
+        "news.search": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "loyalty.get_points": 10,
+        "news.search": 1
+      }
+    },
+    {
+      "name": "maps.get_route",
+      "app": "maps",
+      "kind": "read",
+      "installed_train_samples": 237,
+      "gold_train_samples": 15,
+      "gold_train_call_occurrences": 16,
+      "required": [
+        "origin",
+        "destination"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "maps.save_place",
+      "app": "maps",
+      "kind": "write",
+      "installed_train_samples": 237,
+      "gold_train_samples": 9,
+      "gold_train_call_occurrences": 10,
+      "required": [
+        "place_id",
+        "label"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "place_id": "maps.places"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "gold_price.get_price": 1,
+        "lottery.check_ticket": 1,
+        "loyalty.list_vouchers": 1,
+        "maps.get_route": 2,
+        "maps.search_place": 4,
+        "notes.list": 1,
+        "podcast_radio.search": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "gold_price.get_price": 1,
+        "maps.get_route": 1,
+        "maps.search_place": 4
+      }
+    },
+    {
+      "name": "maps.search_place",
+      "app": "maps",
+      "kind": "read",
+      "installed_train_samples": 237,
+      "gold_train_samples": 9,
+      "gold_train_call_occurrences": 10,
+      "required": [
+        "query"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "medication.add",
+      "app": "medication",
+      "kind": "write",
+      "installed_train_samples": 272,
+      "gold_train_samples": 5,
+      "gold_train_call_occurrences": 5,
+      "required": [
+        "name",
+        "times"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "medication.list",
+      "app": "medication",
+      "kind": "read",
+      "installed_train_samples": 272,
+      "gold_train_samples": 14,
+      "gold_train_call_occurrences": 14,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "medication.log_taken",
+      "app": "medication",
+      "kind": "write",
+      "installed_train_samples": 272,
+      "gold_train_samples": 5,
+      "gold_train_call_occurrences": 7,
+      "required": [
+        "schedule_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "schedule_id": "medication.schedules"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "medication.list": 3
+      },
+      "immediate_reads_per_write_occurrence": {
+        "medication.list": 3
+      }
+    },
+    {
+      "name": "medication.remove",
+      "app": "medication",
+      "kind": "write",
+      "installed_train_samples": 272,
+      "gold_train_samples": 5,
+      "gold_train_call_occurrences": 6,
+      "required": [
+        "schedule_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "schedule_id": "medication.schedules"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "medication.list": 4,
+        "weather.get_forecast": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "medication.list": 3
+      }
+    },
+    {
+      "name": "music.add_to_playlist",
+      "app": "music",
+      "kind": "write",
+      "installed_train_samples": 274,
+      "gold_train_samples": 4,
+      "gold_train_call_occurrences": 5,
+      "required": [
+        "track_id",
+        "playlist_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "track_id": "music.tracks",
+        "playlist_id": "music.playlists"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "chat_ott.list_chats": 2,
+        "chat_ott.read_chat": 2,
+        "music.list_tracks": 3
+      },
+      "immediate_reads_per_write_occurrence": {
+        "music.list_tracks": 2
+      }
+    },
+    {
+      "name": "music.control",
+      "app": "music",
+      "kind": "write",
+      "installed_train_samples": 274,
+      "gold_train_samples": 3,
+      "gold_train_call_occurrences": 3,
+      "required": [
+        "action"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "door_lock.list_locks": 1
+      },
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "music.list_tracks",
+      "app": "music",
+      "kind": "read",
+      "installed_train_samples": 274,
+      "gold_train_samples": 11,
+      "gold_train_call_occurrences": 11,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "music.play",
+      "app": "music",
+      "kind": "write",
+      "installed_train_samples": 274,
+      "gold_train_samples": 14,
+      "gold_train_call_occurrences": 14,
+      "required": [],
+      "x_one_of": [
+        [
+          "track_id"
+        ],
+        [
+          "playlist_id"
+        ]
+      ],
+      "reference_parameters": {
+        "track_id": "music.tracks",
+        "playlist_id": "music.playlists"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "household_chores.list_chores": 1,
+        "music.list_tracks": 7,
+        "tasks.list": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "music.list_tracks": 7
+      }
+    },
+    {
+      "name": "news.headlines",
+      "app": "news",
+      "kind": "read",
+      "installed_train_samples": 116,
+      "gold_train_samples": 3,
+      "gold_train_call_occurrences": 3,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "news.save",
+      "app": "news",
+      "kind": "write",
+      "installed_train_samples": 116,
+      "gold_train_samples": 11,
+      "gold_train_call_occurrences": 15,
+      "required": [
+        "article_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "article_id": "news.articles"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "news.search": 9
+      },
+      "immediate_reads_per_write_occurrence": {
+        "news.search": 8
+      }
+    },
+    {
+      "name": "news.search",
+      "app": "news",
+      "kind": "read",
+      "installed_train_samples": 116,
+      "gold_train_samples": 20,
+      "gold_train_call_occurrences": 21,
+      "required": [
+        "query"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "notes.append",
+      "app": "notes",
+      "kind": "write",
+      "installed_train_samples": 454,
+      "gold_train_samples": 4,
+      "gold_train_call_occurrences": 4,
+      "required": [
+        "note_id",
+        "content"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "note_id": "notes.notes"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "exchange_rate.get_rate": 1,
+        "notes.list": 2,
+        "podcast_radio.search": 1,
+        "shopping_list.get": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "exchange_rate.get_rate": 1,
+        "notes.list": 2
+      }
+    },
+    {
+      "name": "notes.create",
+      "app": "notes",
+      "kind": "write",
+      "installed_train_samples": 454,
+      "gold_train_samples": 23,
+      "gold_train_call_occurrences": 23,
+      "required": [
+        "content"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "appliances.list": 1,
+        "bill_payment.list_bills": 1,
+        "calculator.convert_unit": 1,
+        "contacts.search": 3,
+        "door_lock.list_locks": 1,
+        "food_delivery.get_menu": 1,
+        "food_delivery.list_restaurants": 1,
+        "home_energy.get_usage": 2,
+        "home_security.list_alerts": 4,
+        "smart_home.get_status": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calculator.convert_unit": 1,
+        "contacts.search": 1,
+        "home_security.list_alerts": 3
+      }
+    },
+    {
+      "name": "notes.list",
+      "app": "notes",
+      "kind": "read",
+      "installed_train_samples": 454,
+      "gold_train_samples": 8,
+      "gold_train_call_occurrences": 8,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "package_tracking.reschedule_delivery",
+      "app": "package_tracking",
+      "kind": "write",
+      "installed_train_samples": 81,
+      "gold_train_samples": 5,
+      "gold_train_call_occurrences": 5,
+      "required": [
+        "tracking_id",
+        "time"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "package_tracking.track": 3
+      },
+      "immediate_reads_per_write_occurrence": {
+        "package_tracking.track": 3
+      }
+    },
+    {
+      "name": "package_tracking.schedule_pickup",
+      "app": "package_tracking",
+      "kind": "write",
+      "installed_train_samples": 81,
+      "gold_train_samples": 13,
+      "gold_train_call_occurrences": 13,
+      "required": [
+        "address",
+        "date"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 1,
+        "flights.search": 1
+      },
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "package_tracking.track",
+      "app": "package_tracking",
+      "kind": "read",
+      "installed_train_samples": 81,
+      "gold_train_samples": 8,
+      "gold_train_call_occurrences": 8,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "phone.call",
+      "app": "phone",
+      "kind": "write",
+      "installed_train_samples": 405,
+      "gold_train_samples": 26,
+      "gold_train_call_occurrences": 26,
+      "required": [],
+      "x_one_of": [
+        [
+          "contact_id"
+        ],
+        [
+          "phone_number"
+        ]
+      ],
+      "reference_parameters": {
+        "contact_id": "contacts.contacts"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 1,
+        "chat_ott.list_chats": 1,
+        "chat_ott.read_chat": 1,
+        "contacts.search": 6,
+        "door_lock.list_locks": 1,
+        "home_automation.list_rules": 1,
+        "home_security.list_alerts": 2,
+        "phone.recent_calls": 2,
+        "reminders.list": 1,
+        "smart_home.get_status": 1,
+        "tasks.list": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "chat_ott.read_chat": 1,
+        "contacts.search": 6,
+        "home_security.list_alerts": 1,
+        "phone.recent_calls": 2
+      }
+    },
+    {
+      "name": "phone.recent_calls",
+      "app": "phone",
+      "kind": "read",
+      "installed_train_samples": 405,
+      "gold_train_samples": 3,
+      "gold_train_call_occurrences": 3,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "podcast_radio.play",
+      "app": "podcast_radio",
+      "kind": "write",
+      "installed_train_samples": 107,
+      "gold_train_samples": 4,
+      "gold_train_call_occurrences": 4,
+      "required": [],
+      "x_one_of": [
+        [
+          "episode_id"
+        ],
+        [
+          "station"
+        ]
+      ],
+      "reference_parameters": {
+        "episode_id": "podcast_radio.episodes"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "fuel_price.get_price": 1,
+        "podcast_radio.search": 3
+      },
+      "immediate_reads_per_write_occurrence": {
+        "podcast_radio.search": 3
+      }
+    },
+    {
+      "name": "podcast_radio.queue",
+      "app": "podcast_radio",
+      "kind": "write",
+      "installed_train_samples": 107,
+      "gold_train_samples": 11,
+      "gold_train_call_occurrences": 12,
+      "required": [
+        "episode_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "episode_id": "podcast_radio.episodes"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "music.list_tracks": 1,
+        "news.search": 1,
+        "podcast_radio.search": 6
+      },
+      "immediate_reads_per_write_occurrence": {
+        "podcast_radio.search": 6
+      }
+    },
+    {
+      "name": "podcast_radio.search",
+      "app": "podcast_radio",
+      "kind": "read",
+      "installed_train_samples": 107,
+      "gold_train_samples": 17,
+      "gold_train_call_occurrences": 17,
+      "required": [
+        "query"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "podcast_radio.subscribe",
+      "app": "podcast_radio",
+      "kind": "write",
+      "installed_train_samples": 107,
+      "gold_train_samples": 5,
+      "gold_train_call_occurrences": 5,
+      "required": [
+        "show_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "show_id": "podcast_radio.shows"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "podcast_radio.search": 3,
+        "reminders.list": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "podcast_radio.search": 3
+      }
+    },
+    {
+      "name": "reminders.complete",
+      "app": "reminders",
+      "kind": "write",
+      "installed_train_samples": 705,
+      "gold_train_samples": 3,
+      "gold_train_call_occurrences": 4,
+      "required": [
+        "reminder_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "reminder_id": "reminders.reminders"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "food_delivery.order_history": 1,
+        "reminders.list": 2,
+        "smart_home.get_status": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "reminders.list": 1
+      }
+    },
+    {
+      "name": "reminders.create",
+      "app": "reminders",
+      "kind": "write",
+      "installed_train_samples": 705,
+      "gold_train_samples": 78,
+      "gold_train_call_occurrences": 79,
+      "required": [
+        "content",
+        "time"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "appliances.list": 3,
+        "bill_payment.list_bills": 2,
+        "calculator.calculate": 1,
+        "calendar.list_events": 8,
+        "ewallet.get_balance": 2,
+        "exchange_rate.convert": 1,
+        "fuel_price.get_price": 1,
+        "gold_price.get_price": 4,
+        "home_automation.list_rules": 1,
+        "learning.list_courses": 2,
+        "library.search": 1,
+        "maps.get_route": 3,
+        "maps.search_place": 1,
+        "medication.list": 2,
+        "news.search": 3,
+        "robot_vacuum.get_status": 1,
+        "smart_home.get_status": 2,
+        "video_meeting.list_meetings": 2,
+        "weather.get_current": 2,
+        "weather.get_forecast": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calculator.calculate": 1,
+        "exchange_rate.convert": 1,
+        "fuel_price.get_price": 1,
+        "gold_price.get_price": 4,
+        "maps.get_route": 3,
+        "medication.list": 1,
+        "news.search": 3,
+        "video_meeting.list_meetings": 1,
+        "weather.get_current": 1,
+        "weather.get_forecast": 1
+      }
+    },
+    {
+      "name": "reminders.delete",
+      "app": "reminders",
+      "kind": "write",
+      "installed_train_samples": 705,
+      "gold_train_samples": 2,
+      "gold_train_call_occurrences": 2,
+      "required": [
+        "reminder_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "reminder_id": "reminders.reminders"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "food_delivery.order_history": 1,
+        "learning.list_courses": 1,
+        "reminders.list": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "reminders.list": 1
+      }
+    },
+    {
+      "name": "reminders.list",
+      "app": "reminders",
+      "kind": "read",
+      "installed_train_samples": 705,
+      "gold_train_samples": 9,
+      "gold_train_call_occurrences": 9,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "ride_hailing.book",
+      "app": "ride_hailing",
+      "kind": "write",
+      "installed_train_samples": 395,
+      "gold_train_samples": 32,
+      "gold_train_call_occurrences": 32,
+      "required": [
+        "pickup",
+        "dropoff",
+        "vehicle"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 22,
+        "exchange_rate.get_rate": 1,
+        "flights.search": 1,
+        "maps.search_place": 1,
+        "ride_hailing.get_quotes": 1,
+        "weather.get_forecast": 9
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calendar.list_events": 20,
+        "exchange_rate.get_rate": 1,
+        "maps.search_place": 1,
+        "ride_hailing.get_quotes": 1
+      }
+    },
+    {
+      "name": "ride_hailing.cancel",
+      "app": "ride_hailing",
+      "kind": "write",
+      "installed_train_samples": 395,
+      "gold_train_samples": 6,
+      "gold_train_call_occurrences": 6,
+      "required": [
+        "ride_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "ride_id": "ride_hailing.rides"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "contacts.search": 1,
+        "ride_hailing.get_ride": 1,
+        "sms.read_recent": 1,
+        "weather.get_forecast": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "ride_hailing.get_ride": 1,
+        "weather.get_forecast": 1
+      }
+    },
+    {
+      "name": "ride_hailing.get_quotes",
+      "app": "ride_hailing",
+      "kind": "read",
+      "installed_train_samples": 395,
+      "gold_train_samples": 1,
+      "gold_train_call_occurrences": 1,
+      "required": [
+        "pickup",
+        "dropoff"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "ride_hailing.get_ride",
+      "app": "ride_hailing",
+      "kind": "read",
+      "installed_train_samples": 395,
+      "gold_train_samples": 3,
+      "gold_train_call_occurrences": 3,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {
+        "ride_id": "ride_hailing.rides"
+      },
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "robot_vacuum.get_status",
+      "app": "robot_vacuum",
+      "kind": "read",
+      "installed_train_samples": 92,
+      "gold_train_samples": 13,
+      "gold_train_call_occurrences": 13,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "robot_vacuum.start",
+      "app": "robot_vacuum",
+      "kind": "write",
+      "installed_train_samples": 92,
+      "gold_train_samples": 15,
+      "gold_train_call_occurrences": 15,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 1,
+        "door_lock.list_locks": 1,
+        "home_security.get_camera": 1,
+        "robot_vacuum.get_status": 11,
+        "smart_home.get_status": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "robot_vacuum.get_status": 11
+      }
+    },
+    {
+      "name": "robot_vacuum.stop",
+      "app": "robot_vacuum",
+      "kind": "write",
+      "installed_train_samples": 92,
+      "gold_train_samples": 13,
+      "gold_train_call_occurrences": 13,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "food_delivery.order_history": 1,
+        "household_chores.list_chores": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "food_delivery.order_history": 1,
+        "household_chores.list_chores": 1
+      }
+    },
+    {
+      "name": "shopping_list.add",
+      "app": "shopping_list",
+      "kind": "write",
+      "installed_train_samples": 82,
+      "gold_train_samples": 13,
+      "gold_train_call_occurrences": 13,
+      "required": [
+        "name"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "calculator.convert_unit": 6,
+        "chat_ott.list_chats": 1,
+        "lottery.check_ticket": 1,
+        "news.search": 1,
+        "notes.list": 1,
+        "shopping_list.get": 2
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calculator.convert_unit": 6,
+        "chat_ott.list_chats": 1,
+        "lottery.check_ticket": 1,
+        "notes.list": 1,
+        "shopping_list.get": 1
+      }
+    },
+    {
+      "name": "shopping_list.check",
+      "app": "shopping_list",
+      "kind": "write",
+      "installed_train_samples": 82,
+      "gold_train_samples": 4,
+      "gold_train_call_occurrences": 7,
+      "required": [
+        "item_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "item_id": "shopping_list.items"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "shopping_list.get": 4
+      },
+      "immediate_reads_per_write_occurrence": {
+        "shopping_list.get": 2
+      }
+    },
+    {
+      "name": "shopping_list.get",
+      "app": "shopping_list",
+      "kind": "read",
+      "installed_train_samples": 82,
+      "gold_train_samples": 7,
+      "gold_train_call_occurrences": 7,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "shopping_list.remove",
+      "app": "shopping_list",
+      "kind": "write",
+      "installed_train_samples": 82,
+      "gold_train_samples": 4,
+      "gold_train_call_occurrences": 4,
+      "required": [
+        "item_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "item_id": "shopping_list.items"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "fitness.get_activity": 1,
+        "shopping_list.get": 2
+      },
+      "immediate_reads_per_write_occurrence": {
+        "fitness.get_activity": 1,
+        "shopping_list.get": 2
+      }
+    },
+    {
+      "name": "smart_home.climate_set",
+      "app": "smart_home",
+      "kind": "write",
+      "installed_train_samples": 522,
+      "gold_train_samples": 34,
+      "gold_train_call_occurrences": 34,
+      "required": [
+        "device_id",
+        "mode"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "device_id": "smart_home.devices"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "email.read": 1,
+        "smart_home.get_status": 31,
+        "weather.get_current": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "email.read": 1,
+        "smart_home.get_status": 3
+      }
+    },
+    {
+      "name": "smart_home.fan_set",
+      "app": "smart_home",
+      "kind": "write",
+      "installed_train_samples": 522,
+      "gold_train_samples": 6,
+      "gold_train_call_occurrences": 7,
+      "required": [
+        "device_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "device_id": "smart_home.devices"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "email.read": 1,
+        "smart_home.get_status": 4,
+        "video_meeting.list_meetings": 1,
+        "weather.get_current": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "smart_home.get_status": 2,
+        "video_meeting.list_meetings": 1
+      }
+    },
+    {
+      "name": "smart_home.get_status",
+      "app": "smart_home",
+      "kind": "read",
+      "installed_train_samples": 522,
+      "gold_train_samples": 91,
+      "gold_train_call_occurrences": 91,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "smart_home.light_set",
+      "app": "smart_home",
+      "kind": "write",
+      "installed_train_samples": 522,
+      "gold_train_samples": 79,
+      "gold_train_call_occurrences": 107,
+      "required": [
+        "device_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "device_id": "smart_home.devices"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "home_energy.get_usage": 1,
+        "household_chores.list_chores": 2,
+        "reminders.list": 2,
+        "smart_home.get_status": 96
+      },
+      "immediate_reads_per_write_occurrence": {
+        "smart_home.get_status": 66
+      }
+    },
+    {
+      "name": "smart_home.scene_run",
+      "app": "smart_home",
+      "kind": "write",
+      "installed_train_samples": 522,
+      "gold_train_samples": 1,
+      "gold_train_call_occurrences": 1,
+      "required": [
+        "scene_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "scene_id": "smart_home.scenes"
+      },
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "smart_home.switch_set",
+      "app": "smart_home",
+      "kind": "write",
+      "installed_train_samples": 522,
+      "gold_train_samples": 3,
+      "gold_train_call_occurrences": 3,
+      "required": [
+        "device_id",
+        "power"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "device_id": "smart_home.devices"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "home_security.get_camera": 1,
+        "smart_home.get_status": 2,
+        "weather.get_current": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "smart_home.get_status": 1
+      }
+    },
+    {
+      "name": "sms.read_recent",
+      "app": "sms",
+      "kind": "read",
+      "installed_train_samples": 329,
+      "gold_train_samples": 6,
+      "gold_train_call_occurrences": 6,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {
+        "contact_id": "contacts.contacts"
+      },
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "sms.send",
+      "app": "sms",
+      "kind": "write",
+      "installed_train_samples": 329,
+      "gold_train_samples": 59,
+      "gold_train_call_occurrences": 60,
+      "required": [
+        "content"
+      ],
+      "x_one_of": [
+        [
+          "contact_id"
+        ],
+        [
+          "phone_number"
+        ]
+      ],
+      "reference_parameters": {
+        "contact_id": "contacts.contacts"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "bike_rental.find_bikes": 1,
+        "bill_payment.list_bills": 16,
+        "calendar.list_events": 23,
+        "contacts.search": 53,
+        "ewallet.get_balance": 16,
+        "exchange_rate.get_rate": 2,
+        "fuel_price.get_price": 1,
+        "home_security.get_camera": 1,
+        "home_security.list_alerts": 1,
+        "library.search": 1,
+        "lottery.check_ticket": 1,
+        "lottery.get_results": 2,
+        "maps.search_place": 1,
+        "phone.recent_calls": 1,
+        "shopping_list.get": 1,
+        "smart_home.get_status": 1,
+        "sms.read_recent": 1,
+        "subscriptions.list": 1,
+        "weather.get_current": 1,
+        "weather.get_forecast": 8
+      },
+      "immediate_reads_per_write_occurrence": {
+        "contacts.search": 50,
+        "lottery.get_results": 2,
+        "phone.recent_calls": 1,
+        "shopping_list.get": 1
+      }
+    },
+    {
+      "name": "subscriptions.cancel",
+      "app": "subscriptions",
+      "kind": "write",
+      "installed_train_samples": 100,
+      "gold_train_samples": 22,
+      "gold_train_call_occurrences": 23,
+      "required": [
+        "subscription_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "subscription_id": "subscriptions.subscriptions"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "ewallet.get_balance": 1,
+        "subscriptions.list": 10
+      },
+      "immediate_reads_per_write_occurrence": {
+        "ewallet.get_balance": 1,
+        "subscriptions.list": 10
+      }
+    },
+    {
+      "name": "subscriptions.list",
+      "app": "subscriptions",
+      "kind": "read",
+      "installed_train_samples": 100,
+      "gold_train_samples": 11,
+      "gold_train_call_occurrences": 11,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "sys.ask_missing_info",
+      "app": "sys",
+      "kind": "meta",
+      "installed_train_samples": 1236,
+      "gold_train_samples": 179,
+      "gold_train_call_occurrences": 179,
+      "required": [
+        "tool_name",
+        "params"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "tasks.add",
+      "app": "tasks",
+      "kind": "write",
+      "installed_train_samples": 443,
+      "gold_train_samples": 32,
+      "gold_train_call_occurrences": 33,
+      "required": [
+        "title"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "appliances.list": 1,
+        "calculator.calculate": 1,
+        "calculator.convert_unit": 3,
+        "gold_price.get_price": 1,
+        "home_automation.list_rules": 1,
+        "home_energy.get_usage": 2,
+        "learning.list_courses": 1,
+        "library.search": 1,
+        "lottery.check_ticket": 1,
+        "lottery.get_results": 1,
+        "maps.get_route": 1,
+        "news.search": 2,
+        "podcast_radio.search": 1,
+        "robot_vacuum.get_status": 2,
+        "subscriptions.list": 1,
+        "tv.guide": 1,
+        "weather.get_current": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calculator.calculate": 1,
+        "gold_price.get_price": 1,
+        "home_energy.get_usage": 2,
+        "lottery.check_ticket": 1,
+        "lottery.get_results": 1,
+        "news.search": 2,
+        "tv.guide": 1,
+        "weather.get_current": 1
+      }
+    },
+    {
+      "name": "tasks.complete",
+      "app": "tasks",
+      "kind": "write",
+      "installed_train_samples": 443,
+      "gold_train_samples": 10,
+      "gold_train_call_occurrences": 11,
+      "required": [
+        "task_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "task_id": "tasks.tasks"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "contacts.search": 1,
+        "exchange_rate.get_rate": 1,
+        "fitness.get_activity": 1,
+        "food_delivery.order_history": 2,
+        "maps.get_route": 1,
+        "maps.search_place": 1,
+        "ride_hailing.get_ride": 2,
+        "tasks.list": 6
+      },
+      "immediate_reads_per_write_occurrence": {
+        "tasks.list": 5
+      }
+    },
+    {
+      "name": "tasks.list",
+      "app": "tasks",
+      "kind": "read",
+      "installed_train_samples": 443,
+      "gold_train_samples": 12,
+      "gold_train_call_occurrences": 12,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "tv.control",
+      "app": "tv",
+      "kind": "write",
+      "installed_train_samples": 273,
+      "gold_train_samples": 5,
+      "gold_train_call_occurrences": 5,
+      "required": [
+        "action"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "food_delivery.order_history": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "food_delivery.order_history": 1
+      }
+    },
+    {
+      "name": "tv.guide",
+      "app": "tv",
+      "kind": "read",
+      "installed_train_samples": 273,
+      "gold_train_samples": 3,
+      "gold_train_call_occurrences": 3,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "tv.record",
+      "app": "tv",
+      "kind": "write",
+      "installed_train_samples": 273,
+      "gold_train_samples": 1,
+      "gold_train_call_occurrences": 1,
+      "required": [
+        "program_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "program_id": "tv.programs"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calendar.list_events": 1
+      }
+    },
+    {
+      "name": "tv.tune",
+      "app": "tv",
+      "kind": "write",
+      "installed_train_samples": 273,
+      "gold_train_samples": 2,
+      "gold_train_call_occurrences": 2,
+      "required": [
+        "channel"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "tv.guide": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "tv.guide": 1
+      }
+    },
+    {
+      "name": "video_meeting.create",
+      "app": "video_meeting",
+      "kind": "write",
+      "installed_train_samples": 99,
+      "gold_train_samples": 10,
+      "gold_train_call_occurrences": 10,
+      "required": [
+        "title",
+        "start"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {
+        "calendar.list_events": 2,
+        "contacts.search": 1,
+        "video_meeting.list_meetings": 1
+      },
+      "immediate_reads_per_write_occurrence": {
+        "calendar.list_events": 1,
+        "contacts.search": 1,
+        "video_meeting.list_meetings": 1
+      }
+    },
+    {
+      "name": "video_meeting.join",
+      "app": "video_meeting",
+      "kind": "write",
+      "installed_train_samples": 99,
+      "gold_train_samples": 7,
+      "gold_train_call_occurrences": 7,
+      "required": [
+        "meeting_id"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {
+        "meeting_id": "video_meeting.meetings"
+      },
+      "earlier_reads_per_write_occurrence": {
+        "chat_ott.list_chats": 1,
+        "chat_ott.read_chat": 1,
+        "contacts.search": 1,
+        "video_meeting.list_meetings": 4
+      },
+      "immediate_reads_per_write_occurrence": {
+        "video_meeting.list_meetings": 4
+      }
+    },
+    {
+      "name": "video_meeting.list_meetings",
+      "app": "video_meeting",
+      "kind": "read",
+      "installed_train_samples": 99,
+      "gold_train_samples": 13,
+      "gold_train_call_occurrences": 13,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "weather.get_current",
+      "app": "weather",
+      "kind": "read",
+      "installed_train_samples": 514,
+      "gold_train_samples": 14,
+      "gold_train_call_occurrences": 14,
+      "required": [],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    },
+    {
+      "name": "weather.get_forecast",
+      "app": "weather",
+      "kind": "read",
+      "installed_train_samples": 514,
+      "gold_train_samples": 48,
+      "gold_train_call_occurrences": 48,
+      "required": [
+        "date"
+      ],
+      "x_one_of": [],
+      "reference_parameters": {},
+      "earlier_reads_per_write_occurrence": {},
+      "immediate_reads_per_write_occurrence": {}
+    }
+  ]
+}

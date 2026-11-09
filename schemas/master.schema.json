@@ -1,0 +1,903 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LifeMate master episode v1",
+  "description": "One latest-request episode, starting AFTER completed history. JSON Schema validates structure; runtime, causal and semantic checks remain separate.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "enum": [
+            "btc_train",
+            "synthetic",
+            "manual_fixture"
+          ]
+        },
+        "partition": {
+          "enum": [
+            "train",
+            "synthetic_val",
+            "example",
+            "quarantine"
+          ]
+        },
+        "split_group": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scenario_family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scenario_variant": {
+          "type": "string",
+          "minLength": 1
+        },
+        "focus_tools": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "seed_sample_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "parent_episode_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contrast_group_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "generator": {
+          "type": "object",
+          "properties": {
+            "model": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "revision": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "prompt_version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sampling_config": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "model",
+            "revision",
+            "prompt_version",
+            "sampling_config"
+          ],
+          "additionalProperties": false
+        },
+        "review": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "needs_review",
+                "approved",
+                "suspected_noise",
+                "rejected"
+              ]
+            },
+            "evidence_ref": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "evidence_ref"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "source",
+        "partition",
+        "split_group",
+        "scenario_family",
+        "scenario_variant",
+        "focus_tools",
+        "seed_sample_id",
+        "parent_episode_id",
+        "contrast_group_id",
+        "generator",
+        "review"
+      ],
+      "additionalProperties": false
+    },
+    "input": {
+      "type": "object",
+      "properties": {
+        "user_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "current_time": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "timezone": {
+              "type": "string",
+              "minLength": 1
+            },
+            "location": {
+              "type": [
+                "object",
+                "string",
+                "null"
+              ]
+            },
+            "user_profile": {
+              "type": "object"
+            },
+            "installed_apps": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "tools": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "tools"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "current_time",
+            "timezone",
+            "location",
+            "user_profile",
+            "installed_apps"
+          ],
+          "additionalProperties": false
+        },
+        "conversation_history": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/history_turn"
+          }
+        }
+      },
+      "required": [
+        "user_text",
+        "context",
+        "conversation_history"
+      ],
+      "additionalProperties": false
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/tool"
+      },
+      "minItems": 1
+    },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "state_boundary": {
+          "const": "after_history"
+        },
+        "initial_state": {
+          "type": "object",
+          "required": [
+            "_meta"
+          ]
+        },
+        "initial_state_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "initial_state_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "catalog_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "catalog_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "runtime_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "state_boundary",
+        "initial_state_sha256",
+        "catalog_ref",
+        "catalog_sha256",
+        "runtime_ref",
+        "runtime_sha256"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "required": [
+            "initial_state"
+          ],
+          "not": {
+            "required": [
+              "initial_state_ref"
+            ]
+          }
+        },
+        {
+          "required": [
+            "initial_state_ref"
+          ],
+          "not": {
+            "required": [
+              "initial_state"
+            ]
+          }
+        }
+      ],
+      "description": "Verifier-only. Snapshot is the BTC Session entry format: _meta plus app states. Inline snapshot or immutable artifact reference, exactly one. Canonical object SHA256 is defined in the plan."
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "outcome": {
+          "enum": [
+            "execute",
+            "ask_missing_info",
+            "no_action"
+          ]
+        },
+        "task_types": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "lookup",
+              "single_write",
+              "multi_step",
+              "multi_goal",
+              "conditional"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "subgoals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "instruction": {
+                "type": "string",
+                "minLength": 1
+              },
+              "depends_on": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "expected_status": {
+                "enum": [
+                  "completed",
+                  "awaiting_info",
+                  "skipped_condition_false",
+                  "unsupported",
+                  "cancelled"
+                ]
+              },
+              "tools": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "missing_arguments": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "id",
+              "instruction",
+              "depends_on",
+              "expected_status",
+              "tools",
+              "missing_arguments"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "state_assertions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "pattern": "^(/([^~/]|~[01])*)*$",
+                "description": "RFC 6901 JSON Pointer. State checks refer to the app-state object without _meta."
+              },
+              "operator": {
+                "enum": [
+                  "eq",
+                  "unchanged",
+                  "exists"
+                ]
+              },
+              "value": {}
+            },
+            "required": [
+              "path",
+              "operator"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "operator": {
+                      "const": "eq"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "value"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "allowed_mutation_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(/([^~/]|~[01])*)*$",
+            "description": "RFC 6901 JSON Pointer. State checks refer to the app-state object without _meta."
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "outcome",
+        "task_types",
+        "subgoals",
+        "state_assertions",
+        "allowed_mutation_paths"
+      ],
+      "additionalProperties": false
+    },
+    "trajectory": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/step"
+      }
+    },
+    "terminal": {
+      "type": "object",
+      "properties": {
+        "signal": {
+          "enum": [
+            "DONE",
+            "ask_missing_info"
+          ]
+        },
+        "reason": {
+          "enum": [
+            "completed",
+            "lookup_complete",
+            "awaiting_info",
+            "condition_false",
+            "unsupported_capability",
+            "user_cancelled",
+            "answer_in_history",
+            "no_new_request"
+          ]
+        }
+      },
+      "required": [
+        "signal",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "verification": {
+      "type": "object",
+      "properties": {
+        "schema_valid": {
+          "enum": [
+            "not_run",
+            "pass",
+            "fail"
+          ]
+        },
+        "replay_valid": {
+          "enum": [
+            "not_run",
+            "pass",
+            "fail"
+          ]
+        },
+        "causal_valid": {
+          "enum": [
+            "not_run",
+            "pass",
+            "fail"
+          ]
+        },
+        "semantic_valid": {
+          "enum": [
+            "not_run",
+            "pass",
+            "fail"
+          ]
+        },
+        "side_effects_valid": {
+          "enum": [
+            "not_run",
+            "pass",
+            "fail"
+          ]
+        },
+        "call_policy_valid": {
+          "enum": [
+            "not_run",
+            "pass",
+            "fail"
+          ]
+        },
+        "terminal_valid": {
+          "enum": [
+            "not_run",
+            "pass",
+            "fail"
+          ]
+        },
+        "validator_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "report_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "schema_valid",
+        "replay_valid",
+        "causal_valid",
+        "semantic_valid",
+        "side_effects_valid",
+        "call_policy_valid",
+        "terminal_valid",
+        "validator_version",
+        "report_ref"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "id",
+    "metadata",
+    "input",
+    "tools",
+    "environment",
+    "target",
+    "trajectory",
+    "terminal",
+    "verification"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "call": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "arguments": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "arguments"
+      ],
+      "additionalProperties": false
+    },
+    "tool": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "function"
+        },
+        "function": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": {
+              "type": "string"
+            },
+            "parameters": {
+              "type": "object",
+              "required": [
+                "type",
+                "properties"
+              ],
+              "properties": {
+                "type": {
+                  "const": "object"
+                },
+                "properties": {
+                  "type": "object"
+                },
+                "required": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "uniqueItems": true
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "parameters"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type",
+        "function"
+      ],
+      "additionalProperties": false
+    },
+    "history_turn": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "user"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "role",
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "assistant"
+            },
+            "text": {
+              "type": "string"
+            },
+            "tool_calls": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/call"
+              }
+            },
+            "tool_results": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          },
+          "required": [
+            "role",
+            "text",
+            "tool_calls",
+            "tool_results"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "step": {
+      "type": "object",
+      "properties": {
+        "step": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "action": {
+          "$ref": "#/$defs/call"
+        },
+        "observation": {
+          "type": "object"
+        },
+        "observation_source": {
+          "const": "runtime"
+        },
+        "depends_on_steps": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "uniqueItems": true
+        },
+        "subgoal_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "argument_sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "argument": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source": {
+                "enum": [
+                  "request",
+                  "context",
+                  "history",
+                  "observation",
+                  "tool_schema",
+                  "derived",
+                  "default_policy"
+                ]
+              },
+              "ref": {
+                "type": "string",
+                "pattern": "^(/([^~/]|~[01])*)*$",
+                "description": "RFC 6901 JSON Pointer. State checks refer to the app-state object without _meta."
+              },
+              "source_step": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1
+              }
+            },
+            "required": [
+              "argument",
+              "source",
+              "ref",
+              "source_step"
+            ],
+            "additionalProperties": false,
+            "description": "For observation source, source_step must be strictly smaller than this step. ref resolves in the master record. default_policy requires an independently reviewed policy reference, never a guessed value."
+          }
+        },
+        "state_hash_after": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "step",
+        "action",
+        "observation",
+        "observation_source",
+        "depends_on_steps",
+        "subgoal_ids",
+        "argument_sources",
+        "state_hash_after"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "target": {
+            "properties": {
+              "outcome": {
+                "const": "no_action"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "trajectory": {
+            "maxItems": 0
+          },
+          "terminal": {
+            "properties": {
+              "signal": {
+                "const": "DONE"
+              },
+              "reason": {
+                "enum": [
+                  "condition_false",
+                  "unsupported_capability",
+                  "user_cancelled",
+                  "answer_in_history",
+                  "no_new_request"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "target": {
+            "properties": {
+              "outcome": {
+                "const": "execute"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "trajectory": {
+            "minItems": 1,
+            "not": {
+              "contains": {
+                "properties": {
+                  "action": {
+                    "properties": {
+                      "name": {
+                        "const": "sys.ask_missing_info"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "terminal": {
+            "properties": {
+              "signal": {
+                "const": "DONE"
+              },
+              "reason": {
+                "enum": [
+                  "completed",
+                  "lookup_complete",
+                  "condition_false"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "target": {
+            "properties": {
+              "outcome": {
+                "const": "ask_missing_info"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "trajectory": {
+            "minItems": 1,
+            "contains": {
+              "properties": {
+                "action": {
+                  "properties": {
+                    "name": {
+                      "const": "sys.ask_missing_info"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "terminal": {
+            "properties": {
+              "signal": {
+                "const": "ask_missing_info"
+              },
+              "reason": {
+                "const": "awaiting_info"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
